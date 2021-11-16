@@ -7,13 +7,18 @@ public class HexGrid: MonoBehaviour
     [SerializeField] private int _width = 6;
     [SerializeField] private int _height = 6;
     [SerializeField] private Canvas _canvas;
+    [SerializeField] private HexMesh _hexMesh;
     [SerializeField] private HexCell _cellPrefab;
     [SerializeField] private Text _labelPrefab;
+
+    private HexMetrics _metrics;
 
     private HexCell[] _cells;
 
     private void Awake()
     {
+        _metrics = new HexMetrics(_outerRadius);
+
         _cells = new HexCell[_height * _width];
 
         for (int z = 0, i = 0; z < _height; z++) {
@@ -26,9 +31,14 @@ public class HexGrid: MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        _hexMesh.Triangulate(_metrics, _cells);
+    }
+
     private HexCell createCell(int x, int z)
     {
-        var position = new Vector3(x * _outerRadius, 0f, z * _outerRadius);
+        var position = _metrics.GetPositionFor(x, z);
 
         var cell = Instantiate<HexCell>(_cellPrefab);
         cell.transform.SetParent(transform, false);
