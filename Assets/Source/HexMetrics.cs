@@ -17,9 +17,9 @@ public class HexMetrics
     public Vector3 GetPositionFor(int x, int z) 
     {
         return new Vector3(
-            (x + z * 0.5f - z / 2) * _innerRadius * 2f,
+            (x + z * 0.5f - z / 2) * _outerRadius * 3f,
             0f,
-            z * _outerRadius * 1.5f
+            z * _outerRadius
         );
     }
 
@@ -37,19 +37,13 @@ public class HexMetrics
     private Vector3[] getCorners(float outerRadius, float innerRadius)
     {
         return new Vector3[] {
-            new Vector3(0f, 0f, outerRadius),
-            new Vector3(innerRadius, 0f, 0.5f * outerRadius),
-            new Vector3(innerRadius, 0f, -0.5f * outerRadius),
-            new Vector3(0f, 0f, -outerRadius),
-            new Vector3(-innerRadius, 0f, -0.5f * outerRadius),
-            new Vector3(-innerRadius, 0f, 0.5f * outerRadius),
-            // new Vector3(-innerRadius, 0f, outerRadius),
-            // new Vector3(innerRadius, 0f, outerRadius),
-            // new Vector3(outerRadius, 0f, 0f),
-            // new Vector3(innerRadius, 0f, -outerRadius),
-            // new Vector3(-innerRadius, 0f, -outerRadius),
-            // new Vector3(-outerRadius, 0f, 0f),
-            new Vector3(0f, 0f, outerRadius)
+            new Vector3(-outerRadius / 2, 0f, outerRadius),
+            new Vector3(outerRadius / 2, 0f, outerRadius),
+            new Vector3(outerRadius, 0f, 0f),
+            new Vector3(outerRadius / 2, 0f, -outerRadius),
+            new Vector3(-outerRadius / 2, 0f, -outerRadius),
+            new Vector3(-outerRadius, 0f, 0f),
+            new Vector3(-outerRadius / 2, 0f, outerRadius),
         };
     }
 
