@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
@@ -21,7 +22,7 @@ public class HexMesh : MonoBehaviour
         _triangles = new List<int>();
     }
 
-    public void Triangulate(HexMetrics metrics, HexCell[] cells)
+    public void Triangulate(HexMetrics metrics, List<HexCell> cells)
     {
         _mesh.Clear();
         _vertices.Clear();

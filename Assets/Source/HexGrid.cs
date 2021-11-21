@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,19 +15,18 @@ public class HexGrid: MonoBehaviour
 
     private HexMetrics _metrics;
 
-    private HexCell[] _cells;
+    private List<HexCell> _cells;
 
     private void Awake()
     {
         _metrics = new HexMetrics(_outerRadius);
 
-        _cells = new HexCell[_height * _width];
+        _cells = new List<HexCell>(_height * _width);
 
-        for (int z = 0, i = 0; z < _height; z++) {
+        for (int z = 0; z < _height; z++) {
             for (int x = 0; x < _width; x++) {
                 var cell = createCell(x, z);
-                _cells[i] = cell;
-                i++;
+                _cells.Add(cell);
             }
         }
 
