@@ -9,6 +9,7 @@ public class HexMesh : MonoBehaviour
     private List<Vector3> _vertices;
     private List<int> _triangles;
     private MeshFilter _meshFilter;
+    private MeshCollider _collider;
 
     private void Awake() 
     {
@@ -20,6 +21,8 @@ public class HexMesh : MonoBehaviour
 
         _vertices = new List<Vector3>();
         _triangles = new List<int>();
+
+        _collider = gameObject.AddComponent<MeshCollider>();
     }
 
     public void Triangulate(HexMetrics metrics, List<HexCell> cells)
@@ -35,12 +38,14 @@ public class HexMesh : MonoBehaviour
         _mesh.vertices = _vertices.ToArray();
         _mesh.triangles = _triangles.ToArray();
         _mesh.RecalculateNormals();
+
+        _collider.sharedMesh = _mesh;
     }
 
     private void TriangulateCell(HexMetrics metrics, HexCell cell)
     {
         var center = cell.transform.localPosition;
-        var corners = metrics.GetCorners();
+        var corners = metrics.Corners;
 
         for (var i = 0; i < 6; ++i) {
            AddTriangle(

@@ -37,6 +37,13 @@ public class HexGrid: MonoBehaviour
         _hexMesh.Triangulate(_metrics, _cells);
     }
 
+    private void Update() 
+    {
+        if (Input.GetMouseButtonDown(0)) {
+            HandleInput();
+        }
+    }
+
     private HexCell createCell(int x, int z)
     {
         var position = _metrics.GetPositionFor(x, z);
@@ -44,12 +51,29 @@ public class HexGrid: MonoBehaviour
         var cell = Instantiate<HexCell>(_cellPrefab);
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
+        cell.Init(HexCoordinates.FromOffsetCoordinates(x, z));
 
         var label = Instantiate<Text>(_labelPrefab);
         label.rectTransform.SetParent(_canvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
-        label.text = x.ToString() + ':' + z.ToString();
+        label.text = cell.ToString();
 
         return cell;
+    }
+
+    private void HandleInput()
+    {
+        var inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(inputRay, out hit)) {
+            TouchCell(hit.point);
+        }
+    }
+
+    private void TouchCell(Vector3 position)
+    {
+        position = transform.InverseTransformPoint(position);
+        var coordinates = HexCoordinates.FromPosition(position, _metrics);
+        Debug.Log("touched at " + coordinates.ToString());
     }
 }
