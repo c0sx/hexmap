@@ -193,7 +193,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 963194227}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -430,7 +430,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2ed4913052c5d5147bac0f1bbb8c71a1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -508,11 +508,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _outerRadius: 10
   _width: 10
-  _height: 20
+  _height: 10
   _canvas: {fileID: 229209739}
   _hexMesh: {fileID: 1004188025}
   _cellPrefab: {fileID: 2676370214149305824, guid: 347980c4dac9af9488b7a6ea3c716ed1, type: 3}
   _labelPrefab: {fileID: 1503376302705889725, guid: af51cc59b7648e6499eafbdfd2cd10cf, type: 3}
+  _default: {r: 1, g: 1, b: 1, a: 0}
+  _touched: {r: 0.00126791, g: 1, b: 0, a: 0}
 --- !u!64 &1395610076
 MeshCollider:
   m_ObjectHideFlags: 0

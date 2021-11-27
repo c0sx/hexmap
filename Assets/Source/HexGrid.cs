@@ -12,6 +12,8 @@ public class HexGrid: MonoBehaviour
     [SerializeField] private HexMesh _hexMesh;
     [SerializeField] private HexCell _cellPrefab;
     [SerializeField] private Text _labelPrefab;
+    [SerializeField] private Color _default;
+    [SerializeField] private Color _touched;
 
     private HexMetrics _metrics;
 
@@ -23,10 +25,11 @@ public class HexGrid: MonoBehaviour
 
         _cells = new List<HexCell>(_height * _width);
 
-        for (int z = 0; z < _height; z++) {
-            for (int x = 0; x < _width; x++) {
-                var cell = createCell(x, z);
+        for (int z = 0, i = 0; z < _height; z++, i = 0) {
+            for (int x = 0; x < _height; x++) {
+                var cell = createCell(i, x, z);
                 _cells.Add(cell);
+                i++;
             }
         }
 
@@ -44,14 +47,14 @@ public class HexGrid: MonoBehaviour
         }
     }
 
-    private HexCell createCell(int x, int z)
+    private HexCell createCell(int i, int x, int z)
     {
-        var position = _metrics.GetPositionFor(x, z);
+        var position = _metrics.GetPositionFor(i, x, z);
 
         var cell = Instantiate<HexCell>(_cellPrefab);
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
-        cell.Init(HexCoordinates.FromOffsetCoordinates(x, z));
+        cell.Init(HexCoordinates.FromOffsetCoordinates(x, z), _default);
 
         var label = Instantiate<Text>(_labelPrefab);
         label.rectTransform.SetParent(_canvas.transform, false);
@@ -66,14 +69,18 @@ public class HexGrid: MonoBehaviour
         var inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(inputRay, out hit)) {
-            TouchCell(hit.point);
+            TouchCell(hit);
         }
     }
 
-    private void TouchCell(Vector3 position)
+    private void TouchCell(RaycastHit hit)
     {
+        var position = hit.point;
         position = transform.InverseTransformPoint(position);
         var coordinates = HexCoordinates.FromPosition(position, _metrics);
-        Debug.Log("touched at " + coordinates.ToString());
+        int index = coordinates.X + coordinates.Z * _width + coordinates.Z / 2;
+		HexCell cell = _cells[index];
+        cell.Touch(_touched);
+        _hexMesh.Triangulate(_metrics, _cells);
     }
 }
