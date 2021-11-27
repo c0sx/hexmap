@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexMesh : MonoBehaviour
@@ -11,6 +13,8 @@ public class HexMesh : MonoBehaviour
     private MeshFilter _meshFilter;
     private MeshCollider _collider;
     private List<Color> _colors;
+
+    public Action<Vector3> Clicked;
 
     private void Awake() 
     {
@@ -25,6 +29,15 @@ public class HexMesh : MonoBehaviour
 
         _collider = gameObject.AddComponent<MeshCollider>();
         _colors = new List<Color>();
+    }
+
+    private void OnMouseDown()
+    {
+        var inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(inputRay, out hit)) {
+            Clicked.Invoke(hit.point);
+        }
     }
 
     public void Triangulate(HexMetrics metrics, List<HexCell> cells)

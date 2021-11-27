@@ -32,7 +32,6 @@ public class HexGrid: MonoBehaviour
                 i++;
             }
         }
-
     }
 
     private void Start()
@@ -40,11 +39,14 @@ public class HexGrid: MonoBehaviour
         _hexMesh.Triangulate(_metrics, _cells);
     }
 
-    private void Update() 
+    private void OnEnable()
     {
-        if (Input.GetMouseButtonDown(0)) {
-            HandleInput();
-        }
+        _hexMesh.Clicked += TouchCell;
+    }
+
+    private void OnDisable()
+    {
+        _hexMesh.Clicked -= TouchCell;
     }
 
     private HexCell createCell(int i, int x, int z)
@@ -64,23 +66,15 @@ public class HexGrid: MonoBehaviour
         return cell;
     }
 
-    private void HandleInput()
+    private void TouchCell(Vector3 position)
     {
-        var inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(inputRay, out hit)) {
-            TouchCell(hit);
-        }
-    }
-
-    private void TouchCell(RaycastHit hit)
-    {
-        var position = hit.point;
         position = transform.InverseTransformPoint(position);
+
         var coordinates = HexCoordinates.FromPosition(position, _metrics);
         int index = coordinates.X + coordinates.Z * _width + coordinates.Z / 2;
 		HexCell cell = _cells[index];
         cell.Touch(_touched);
+        
         _hexMesh.Triangulate(_metrics, _cells);
     }
 }
