@@ -3,6 +3,7 @@ using UnityEngine;
 public class HexCell : MonoBehaviour
 {
     [SerializeField] private HexCoordinates _coordinates;
+    [SerializeField] private HexCellMesh _mesh;
     private Color _color;
 
     public Color Color => _color;
@@ -11,6 +12,11 @@ public class HexCell : MonoBehaviour
     {
         _coordinates = coordinates;
         _color = color;
+    }
+
+    public void Triangulate(HexMetrics metrics)
+    {
+        _mesh.Triangulate(metrics, this);
     }
 
     public void Touch(Color color)

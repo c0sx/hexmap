@@ -20,9 +20,9 @@ public class HexMetrics
 
     public Vector3 GetPositionFor(int i, int x, int z) 
     {
-        float xPosition = (x + z * 0.5f - z / 2) * (_innerRadius * 2f);
+        float xPosition = (x + z * 0.5f - z / 2) * _innerRadius;
         float yPosition = 0f;
-        float zPosition = z * _outerRadius * 1.5f;
+        float zPosition = z * _innerRadius * 2f;
 
         return new Vector3(
             xPosition,
