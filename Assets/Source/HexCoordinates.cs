@@ -16,7 +16,6 @@ public class HexCoordinates
 
     public static HexCoordinates FromPosition(Vector3 position, HexMetrics metrics) {
         float x = position.x / (metrics.InnerRadius * 2f);
-        Debug.Log("x " + x);
 		float y = -x;
 
 		float offset = position.z / (metrics.OuterRadius * 3f);
