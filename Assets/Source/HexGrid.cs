@@ -46,13 +46,13 @@ public class HexGrid: MonoBehaviour
 
         var cell = Instantiate<HexCell>(_cellPrefab);
         cell.transform.SetParent(transform, false);
-        cell.transform.localPosition = position;
+        cell.transform.position = position;
         cell.Init(HexCoordinates.FromOffsetCoordinates(x, z), _default);
 
-        var label = Instantiate<Text>(_labelPrefab);
-        label.rectTransform.SetParent(_canvas.transform, false);
-        label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
-        label.text = cell.ToString();
+        // var label = Instantiate<Text>(_labelPrefab);
+        // label.rectTransform.SetParent(_canvas.transform, false);
+        // label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
+        // label.text = cell.ToString();
 
         return cell;
     }

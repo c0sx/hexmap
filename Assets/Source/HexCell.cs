@@ -16,7 +16,7 @@ public class HexCell : MonoBehaviour
 
     public void Triangulate(HexMetrics metrics)
     {
-        _mesh.Triangulate(metrics, this);
+        // _mesh.Triangulate(metrics, this);
     }
 
     public void Touch(Color color)

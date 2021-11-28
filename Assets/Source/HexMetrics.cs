@@ -22,7 +22,7 @@ public class HexMetrics
     {
         float xPosition = (x + z * 0.5f - z / 2) * _innerRadius;
         float yPosition = 0f;
-        float zPosition = z * _innerRadius * 2f;
+        float zPosition = z * _outerRadius * 1.5f;
 
         return new Vector3(
             xPosition,
