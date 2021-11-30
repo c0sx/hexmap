@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-public class HexMesh : MonoBehaviour
+[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
+public class HexCellMesh : MonoBehaviour
 {
     private Mesh _mesh;
     private List<Vector3> _vertices;
@@ -16,18 +15,18 @@ public class HexMesh : MonoBehaviour
 
     public Action<Vector3> Clicked;
 
-    private void Awake() 
+    private void Awake()
     {
         _mesh = new Mesh();
-        _mesh.name = "Hex Mesh";
+        _mesh.name = "Hex Cell Mesh";
 
         _meshFilter = GetComponent<MeshFilter>();
         _meshFilter.mesh = _mesh;
 
+        _collider = GetComponent<MeshCollider>();
+
         _vertices = new List<Vector3>();
         _triangles = new List<int>();
-
-        _collider = gameObject.AddComponent<MeshCollider>();
         _colors = new List<Color>();
     }
 
@@ -36,20 +35,18 @@ public class HexMesh : MonoBehaviour
         var inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(inputRay, out hit)) {
-            Clicked.Invoke(hit.point);
+            Clicked?.Invoke(hit.point);
         }
     }
 
-    public void Triangulate(HexMetrics metrics, List<HexCell> cells)
+    public void Triangulate(HexMetrics metrics, HexCell cell)
     {
         _mesh.Clear();
         _vertices.Clear();
         _triangles.Clear();
         _colors.Clear();
 
-        foreach (var cell in cells) {
-            TriangulateCell(metrics, cell);
-        }
+        TriangulateCell(metrics, cell);
 
         _mesh.vertices = _vertices.ToArray();
         _mesh.triangles = _triangles.ToArray();
@@ -61,7 +58,7 @@ public class HexMesh : MonoBehaviour
 
     private void TriangulateCell(HexMetrics metrics, HexCell cell)
     {
-        var center = cell.transform.localPosition;
+        var center = Vector3.zero;
         var corners = metrics.Corners;
 
         for (var i = 0; i < 6; ++i) {
