@@ -13,7 +13,6 @@ public class HexGrid: MonoBehaviour
     [SerializeField] private HexCell _cellPrefab;
     [SerializeField] private Text _labelPrefab;
     [SerializeField] private Color _default;
-    [SerializeField] private Color _touched;
 
     private HexMetrics _metrics;
 
@@ -27,7 +26,7 @@ public class HexGrid: MonoBehaviour
 
         for (int z = 0, i = 0; z < _height; z++, i = 0) {
             for (int x = 0; x < _height; x++) {
-                var cell = createCell(i, x, z);
+                var cell = CreateCell(i, x, z);
                 _cells.Add(cell);
                 i++;
             }
@@ -39,17 +38,19 @@ public class HexGrid: MonoBehaviour
         _hexMesh.Triangulate(_metrics, _cells);
     }
 
-    private void OnEnable()
+    public void ColorCell(Vector3 position, Color color)
     {
-        _hexMesh.Clicked += TouchCell;
+        position = transform.InverseTransformPoint(position);
+
+        var coordinates = HexCoordinates.FromPosition(position, _metrics);
+        int index = coordinates.X + coordinates.Z * _width + coordinates.Z / 2;
+		HexCell cell = _cells[index];
+        cell.Touch(color);
+        
+        _hexMesh.Triangulate(_metrics, _cells);
     }
 
-    private void OnDisable()
-    {
-        _hexMesh.Clicked -= TouchCell;
-    }
-
-    private HexCell createCell(int i, int x, int z)
+    private HexCell CreateCell(int i, int x, int z)
     {
         var position = _metrics.GetPositionFor(i, x, z);
 
@@ -64,17 +65,5 @@ public class HexGrid: MonoBehaviour
         label.text = cell.ToString();
 
         return cell;
-    }
-
-    private void TouchCell(Vector3 position)
-    {
-        position = transform.InverseTransformPoint(position);
-
-        var coordinates = HexCoordinates.FromPosition(position, _metrics);
-        int index = coordinates.X + coordinates.Z * _width + coordinates.Z / 2;
-		HexCell cell = _cells[index];
-        cell.Touch(_touched);
-        
-        _hexMesh.Triangulate(_metrics, _cells);
     }
 }
