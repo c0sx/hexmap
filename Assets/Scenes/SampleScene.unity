@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &229209737
 RectTransform:
   m_ObjectHideFlags: 0
@@ -494,7 +494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _outerRadius: 10
   _width: 2
-  _height: 10
+  _height: 2
   _canvas: {fileID: 229209739}
   _cellPrefab: {fileID: 2676370214149305824, guid: 347980c4dac9af9488b7a6ea3c716ed1, type: 3}
   _labelPrefab: {fileID: 1503376302705889725, guid: af51cc59b7648e6499eafbdfd2cd10cf, type: 3}

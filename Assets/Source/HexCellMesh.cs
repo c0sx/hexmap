@@ -30,14 +30,14 @@ public class HexCellMesh : MonoBehaviour
         _colors = new List<Color>();
     }
 
-    // private void OnMouseDown()
-    // {
-    //     var inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //     RaycastHit hit;
-    //     if (Physics.Raycast(inputRay, out hit)) {
-    //         Clicked.Invoke(hit.point);
-    //     }
-    // }
+    private void OnMouseDown()
+    {
+        var inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(inputRay, out hit)) {
+            Clicked?.Invoke(hit.point);
+        }
+    }
 
     public void Triangulate(HexMetrics metrics, HexCell cell)
     {
@@ -58,7 +58,7 @@ public class HexCellMesh : MonoBehaviour
 
     private void TriangulateCell(HexMetrics metrics, HexCell cell)
     {
-        var center = cell.transform.localPosition;
+        var center = Vector3.zero;
         var corners = metrics.Corners;
 
         for (var i = 0; i < 6; ++i) {
