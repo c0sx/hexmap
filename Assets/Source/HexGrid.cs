@@ -6,19 +6,21 @@ using UnityEngine.UI;
 public class HexGrid: MonoBehaviour
 {
     [SerializeField] private float _outerRadius = 10f;
-    [SerializeField] private int _width = 6;
-    [SerializeField] private int _height = 6;
+    [SerializeField] private int _width = 10;
+    [SerializeField] private int _height = 10;
+    [SerializeField] private float _border = 0.5f;
     [SerializeField] private Canvas _canvas;
     [SerializeField] private HexCell _cellPrefab;
     [SerializeField] private Text _labelPrefab;
+    [SerializeField] private PawnSpawner _top;
+    [SerializeField] private PawnSpawner _bottom;
 
     private HexMetrics _metrics;
-
     private List<HexCell> _cells;
 
     private void Awake()
     {
-        _metrics = new HexMetrics(_outerRadius);
+        _metrics = new HexMetrics(_outerRadius, _border);
 
         _cells = new List<HexCell>(_height * _width);
 
@@ -36,6 +38,18 @@ public class HexGrid: MonoBehaviour
         _cells.ForEach(cell => {
             cell.Triangulate();
         });
+
+        for (var i = 0; i < _width * 2; ++i) {
+            var cell = _cells[i];
+            var pawn = _bottom.Spawn();
+            cell.PlacePawn(pawn);
+        }
+
+        for (int i = _cells.Count - 1, counter = 0; counter < _width * 2; --i, ++counter) {
+            var cell = _cells[i];
+            var pawn = _top.Spawn();
+            cell.PlacePawn(pawn);
+        }
     }
 
     private HexCell createCell(int i, int x, int z)

@@ -1,17 +1,13 @@
-using System;
-
 using UnityEngine;
 
 [RequireComponent(typeof(HexCellMesh))]
 public class HexCell : MonoBehaviour
 {
     [SerializeField] private HexCoordinates _coordinates;
-    [SerializeField] private Color _current;
-    [SerializeField] private Color _secondary;
+    [SerializeField] private Pawn _pawnPrefab;
     private HexCellMesh _mesh;
     private HexMetrics _metrics;
-
-    public Color Color => _current;
+    private Pawn _pawn;
 
     public void Init(HexCoordinates coordinates, HexMetrics metrics)
     {
@@ -19,8 +15,6 @@ public class HexCell : MonoBehaviour
         _metrics = metrics;
 
         _mesh = GetComponent<HexCellMesh>();
-
-        Subscribe();
     }
 
     public void Triangulate()
@@ -28,22 +22,16 @@ public class HexCell : MonoBehaviour
         _mesh.Triangulate(_metrics, this);
     }
 
+    public void PlacePawn(Pawn pawn)
+    {
+        _pawn = pawn;
+
+        _pawn.transform.SetParent(transform);
+        _pawn.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+    }
+
     public override string ToString()
     {
         return _coordinates.ToString();
-    }
-
-    private void Subscribe()
-    {
-        _mesh.Clicked += TouchCell;
-    }
-
-    private void TouchCell(Vector3 position)
-    {
-        var color = _current;
-        _current = _secondary;
-        _secondary = color;
-
-        Triangulate();
     }
 }

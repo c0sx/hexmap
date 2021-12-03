@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -11,9 +10,6 @@ public class HexCellMesh : MonoBehaviour
     private List<int> _triangles;
     private MeshFilter _meshFilter;
     private MeshCollider _collider;
-    private List<Color> _colors;
-
-    public Action<Vector3> Clicked;
 
     private void Awake()
     {
@@ -27,16 +23,6 @@ public class HexCellMesh : MonoBehaviour
 
         _vertices = new List<Vector3>();
         _triangles = new List<int>();
-        _colors = new List<Color>();
-    }
-
-    private void OnMouseDown()
-    {
-        var inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(inputRay, out hit)) {
-            Clicked?.Invoke(hit.point);
-        }
     }
 
     public void Triangulate(HexMetrics metrics, HexCell cell)
@@ -44,14 +30,12 @@ public class HexCellMesh : MonoBehaviour
         _mesh.Clear();
         _vertices.Clear();
         _triangles.Clear();
-        _colors.Clear();
 
         TriangulateCell(metrics, cell);
 
         _mesh.vertices = _vertices.ToArray();
         _mesh.triangles = _triangles.ToArray();
         _mesh.RecalculateNormals();
-        _mesh.colors = _colors.ToArray();
 
         _collider.sharedMesh = _mesh;
     }
@@ -67,8 +51,6 @@ public class HexCellMesh : MonoBehaviour
                 center + corners[i],
                 center + corners[i + 1]
             );
-
-            AddColor(cell.Color);
         }
     }
 
@@ -82,12 +64,5 @@ public class HexCellMesh : MonoBehaviour
         _triangles.Add(index);
         _triangles.Add(index + 1);
         _triangles.Add(index + 2);
-    }
-
-    private void AddColor(Color color) 
-    {
-        _colors.Add(color);
-        _colors.Add(color);
-        _colors.Add(color);
     }
 }
