@@ -14,15 +14,21 @@ public class HexGrid: MonoBehaviour
     [SerializeField] private Text _labelPrefab;
     [SerializeField] private PawnSpawner _top;
     [SerializeField] private PawnSpawner _bottom;
+    [SerializeField] private MovementHighlighter _movement;
 
     private HexMetrics _metrics;
     private List<HexCell> _cells;
+    private List<Pawn> _pawns;
+
+    public List<HexCell> Cells => _cells;
+    public int Width => _width;
+    public int Height => _height;
 
     private void Awake()
     {
         _metrics = new HexMetrics(_outerRadius, _border);
-
         _cells = new List<HexCell>(_height * _width);
+        _pawns = new List<Pawn>();
 
         for (int z = 0, i = 0; z < _height; z++, i = 0) {
             for (int x = 0; x < _width; x++) {
@@ -42,6 +48,20 @@ public class HexGrid: MonoBehaviour
         SpawnCells();
     }
 
+    private void OnEnable()
+    {
+        foreach (var pawn in _pawns) {
+            pawn.Clicked += HighlightAround;
+        }
+    }
+
+    private void OnDisable()
+    {
+        foreach (var pawn in _pawns) {
+            pawn.Clicked -= HighlightAround;
+        }
+    }
+
     private void SpawnCells()
     {
         for (var i = 0; i < _width * _bottom.Size; ++i) {
@@ -58,7 +78,9 @@ public class HexGrid: MonoBehaviour
     private void SpawnCell(HexCell cell, PawnSpawner spawner)
     {
         var pawn = spawner.Spawn();
-        cell.PlacePawn(pawn);
+        _pawns.Add(pawn);
+
+        pawn.PlaceTo(cell);
     }
 
     private HexCell CreateCell(int i, int x, int z)
@@ -78,5 +100,11 @@ public class HexGrid: MonoBehaviour
         label.text = cell.ToString();
 
         return cell;
+    }
+
+    private void HighlightAround(Pawn pawn)
+    {
+        Debug.Log("highlight");
+        _movement.Highlight(pawn.Cell);
     }
 }
