@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pawnPrefab: {fileID: -7475542407422028425, guid: 7b9f305e57e988948af5fb9e92379b91, type: 3}
+  _current: {r: 1, g: 1, b: 1, a: 0}
+  _previous: {r: 0, g: 1, b: 0, a: 0}
 --- !u!33 &6935276982704373422
 MeshFilter:
   m_ObjectHideFlags: 0

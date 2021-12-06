@@ -5,6 +5,8 @@ public class HexCell : MonoBehaviour
 {
     [SerializeField] private HexCoordinates _coordinates;
     [SerializeField] private Pawn _pawnPrefab;
+    [SerializeField] private Color _current;
+    [SerializeField] private Color _previous;
     private HexCellMesh _mesh;
     private HexMetrics _metrics;
     private Pawn _pawn;
@@ -20,6 +22,12 @@ public class HexCell : MonoBehaviour
     public void Triangulate()
     {
         _mesh.Triangulate(_metrics, this);
+    }
+
+    public void Highlight()
+    {
+        (_previous, _current) = (_current, _previous);
+        _mesh.Color(_current);
     }
 
     public void PlacePawn(Pawn pawn)

@@ -26,7 +26,7 @@ public class HexGrid: MonoBehaviour
 
         for (int z = 0, i = 0; z < _height; z++, i = 0) {
             for (int x = 0; x < _width; x++) {
-                var cell = createCell(i, x, z);
+                var cell = CreateCell(i, x, z);
                 _cells.Add(cell);
                 i++;
             }
@@ -35,24 +35,33 @@ public class HexGrid: MonoBehaviour
 
     private void Start()
     {
-        _cells.ForEach(cell => {
+        foreach (var cell in _cells) {
             cell.Triangulate();
-        });
-
-        for (var i = 0; i < _width * 2; ++i) {
-            var cell = _cells[i];
-            var pawn = _bottom.Spawn();
-            cell.PlacePawn(pawn);
         }
 
-        for (int i = _cells.Count - 1, counter = 0; counter < _width * 2; --i, ++counter) {
+        SpawnCells();
+    }
+
+    private void SpawnCells()
+    {
+        for (var i = 0; i < _width * _bottom.Size; ++i) {
             var cell = _cells[i];
-            var pawn = _top.Spawn();
-            cell.PlacePawn(pawn);
+            SpawnCell(cell, _bottom);
+        }
+
+        for (int i = _cells.Count - 1, counter = 0; counter < _width * _top.Size; --i, ++counter) {
+            var cell = _cells[i];
+            SpawnCell(cell, _top);
         }
     }
 
-    private HexCell createCell(int i, int x, int z)
+    private void SpawnCell(HexCell cell, PawnSpawner spawner)
+    {
+        var pawn = spawner.Spawn();
+        cell.PlacePawn(pawn);
+    }
+
+    private HexCell CreateCell(int i, int x, int z)
     {
         var position = _metrics.GetPositionFor(i, x, z);
 

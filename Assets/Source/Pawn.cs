@@ -4,16 +4,12 @@ using UnityEngine;
 public class Pawn : MonoBehaviour
 {
     private MeshRenderer _mesh;
-    [SerializeField] private Color _current;
-    [SerializeField] private Color _previous;
+    private Color _current;
+    private Color _previous;
 
     private void OnMouseDown()
     {
-        var inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(inputRay, out hit)) {
-            ToggleSelection();
-        }
+        ToggleSelection();
     }
 
     public void Init(Color color, Color previous)
@@ -27,10 +23,7 @@ public class Pawn : MonoBehaviour
 
     private void ToggleSelection()
     {
-        var temp = _previous;
-        _previous = _current;
-        _current = temp;
-
+        (_previous, _current) = (_current, _previous);
         _mesh.material.color = _current;
     }
 }

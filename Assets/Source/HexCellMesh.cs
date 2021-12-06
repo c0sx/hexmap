@@ -10,6 +10,7 @@ public class HexCellMesh : MonoBehaviour
     private List<int> _triangles;
     private MeshFilter _meshFilter;
     private MeshCollider _collider;
+    private MeshRenderer _renderer;
 
     private void Awake()
     {
@@ -20,6 +21,7 @@ public class HexCellMesh : MonoBehaviour
         _meshFilter.mesh = _mesh;
 
         _collider = GetComponent<MeshCollider>();
+        _renderer = GetComponent<MeshRenderer>();
 
         _vertices = new List<Vector3>();
         _triangles = new List<int>();
@@ -38,6 +40,11 @@ public class HexCellMesh : MonoBehaviour
         _mesh.RecalculateNormals();
 
         _collider.sharedMesh = _mesh;
+    }
+
+    public void Color(Color color)
+    {
+        _renderer.material.color = color;
     }
 
     private void TriangulateCell(HexMetrics metrics, HexCell cell)
