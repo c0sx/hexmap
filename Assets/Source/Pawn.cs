@@ -2,6 +2,8 @@ using UnityEngine;
 
 using System;
 
+using Grid;
+
 [RequireComponent(typeof(MeshRenderer))]
 public class Pawn : MonoBehaviour
 {
