@@ -11,11 +11,14 @@ namespace Grid
 
         [SerializeField] private HexCoordinates _coordinates;
         [SerializeField] private Pawn _pawnPrefab;
-        [SerializeField] private Color _current;
-        [SerializeField] private Color _previous;
+        [SerializeField] private Color _notSelected;
+        [SerializeField] private Color _selected;
+        private Color _current;
         private HexCellMesh _mesh;
         private HexMetrics _metrics;
         private Pawn _pawn;
+
+        public Mesh Mesh => _mesh.Mesh;
         
         private void OnMouseDown()
         {
@@ -35,11 +38,18 @@ namespace Grid
             _mesh.Triangulate(_metrics, this);
         }
 
-        public void Highlight()
+        public void Select()
         {
-            (_previous, _current) = (_current, _previous);
-            _mesh.Color(_current);
+            _current = _selected;
+            _pawn?.Select();
         }
+
+        public void Deselect()
+        {
+            _current = _notSelected;
+            _pawn?.Deselect();
+        }
+
 
         public void PlacePawn(Pawn pawn)
         {
@@ -47,6 +57,15 @@ namespace Grid
 
             _pawn.transform.SetParent(transform);
             _pawn.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+        }
+
+        public bool HasPawn(Pawn pawn)
+        {
+            if (!_pawn) {
+                return false;
+            }
+
+            return _pawn == pawn;
         }
 
         public override string ToString()

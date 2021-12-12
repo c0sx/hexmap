@@ -8,8 +8,8 @@ using Grid;
 public class Pawn : MonoBehaviour
 {
     private MeshRenderer _mesh;
-    private Color _current;
-    private Color _previous;
+    private Color _notSelected;
+    private Color _selected;
     private HexCell _cell;
 
     public Action<Pawn> Clicked;
@@ -21,19 +21,23 @@ public class Pawn : MonoBehaviour
         ToggleSelection();
     }
 
-    public void Init(Color color, Color previous)
+    public void Init(Color defaultColor, Color selectedColor)
     {
-        _current = color;
-        _previous = previous;
+        _notSelected = defaultColor;
+        _selected = selectedColor;
 
         _mesh = GetComponent<MeshRenderer>();
-        _mesh.material.color = color;
+        _mesh.material.color = _notSelected;
     }
 
-    public void PlaceTo(HexCell cell)
+    public void Select()
     {
-        _cell = cell;
-        _cell.PlacePawn(this);
+        _mesh.material.color = _selected;
+    }
+
+    public void Deselect()
+    {
+        _mesh.material.color = _notSelected;
     }
 
     private void ToggleSelection()

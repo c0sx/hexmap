@@ -7,6 +7,7 @@ using Grid.Selection;
 
 namespace Grid 
 {
+    [RequireComponent(typeof(HexCellSelector))]
     public class HexGrid: MonoBehaviour
     {
         [SerializeField] private float _outerRadius = 10f;
@@ -20,10 +21,10 @@ namespace Grid
         [SerializeField] private PawnSpawner _bottom;
         [SerializeField] private Area _area;
 
+        private HexCellSelector _selector;
         private HexMetrics _metrics;
         private List<HexCell> _cells;
         private List<Pawn> _pawns;
-        private List<Area> _selections;
 
         public List<HexCell> Cells => _cells;
         public int Width => _width;
@@ -32,10 +33,10 @@ namespace Grid
 
         private void Awake()
         {
+            _selector = GetComponent<HexCellSelector>();
             _metrics = new HexMetrics(_outerRadius, _border);
             _cells = new List<HexCell>(_height * _width);
             _pawns = new List<Pawn>();
-            _selections = new List<Area>();
 
             for (int z = 0, i = 0; z < _height; z++, i = 0) {
                 for (int x = 0; x < _width; x++) {
@@ -91,7 +92,7 @@ namespace Grid
             var pawn = spawner.Spawn();
             _pawns.Add(pawn);
 
-            pawn.PlaceTo(cell);
+            cell.PlacePawn(pawn);
         }
 
         private HexCell CreateCell(int i, int x, int z)
@@ -137,11 +138,16 @@ namespace Grid
 
         private void SelectPawn(Pawn pawn)
         {
-            _area.Select(_metrics, pawn.Cell);
+            var cell = _cells.Find(one => one.HasPawn(pawn));
+            if (cell != null) {
+                SelectCell(cell);
+            }
         }
 
         private void SelectCell(HexCell cell) {
-            _area.Select(_metrics, cell);
+            var selected = _selector.Select(this, cell);
+            var group = new Selection.Group(cell, selected);
+            _area.Select(group);
         }
     }
 }

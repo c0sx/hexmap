@@ -14,6 +14,8 @@ namespace Grid
         private MeshCollider _collider;
         private MeshRenderer _renderer;
 
+        public Mesh Mesh => _mesh;
+
         private void Awake()
         {
             _mesh = new Mesh();

@@ -7,7 +7,7 @@ namespace Grid.Selection
     [RequireComponent(typeof(AreaMesh))]
     public class Area : MonoBehaviour
     {
-        [SerializeField] private Grid.HexCell _current;
+        private Group _current;
         private AreaMesh _mesh;
 
         private void Start()
@@ -15,24 +15,20 @@ namespace Grid.Selection
             _mesh = GetComponent<AreaMesh>();
         }
 
-        public void Select(HexMetrics metrics, HexCell cell)
+        public void Select(Group group)
         {
-            _current = cell;
+            _current?.Cells.ForEach(cell => cell.Deselect());
+            _current = group;
+
+            var center = group.Center.transform;
             transform.position = new Vector3(
-                cell.transform.position.x,
-                cell.transform.position.y + 0.1f,
-                cell.transform.position.z
+                center.position.x,
+                center.position.y + 0.1f,
+                center.position.z
             );
 
-            Highlight(metrics);
-        }
-
-        private void Highlight(HexMetrics metrics)
-        {
-            // calculate area around cell
-            // generate mesh for it
-            // show it
-            _mesh.Triangulate(metrics);
+            _mesh.Triangulate(group.Cells);
+            _current.Cells.ForEach(cell => cell.Select());
         }
     }
 
