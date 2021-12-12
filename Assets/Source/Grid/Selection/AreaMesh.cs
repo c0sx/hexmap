@@ -26,20 +26,19 @@ namespace Grid.Selection
 
         public void Triangulate(List<HexCell> cells)
         {
-            var vertices = new List<Vector3>();
-            var triangles = new List<int>();
-            foreach (var cell in cells) {
-                vertices.AddRange(cell.Mesh.vertices);
-                triangles.AddRange(cell.Mesh.triangles);
+            var meshes = new CombineInstance[cells.Count];
+            for (var i = 0; i < cells.Count; ++i) {
+                var cell = cells[i];
+                meshes[i].mesh = cell.MeshFilter.sharedMesh;
+                meshes[i].transform = cell.transform.localToWorldMatrix;
             }
 
-            _mesh.vertices = vertices.ToArray();
-            _mesh.triangles = triangles.ToArray();
+            _mesh.CombineMeshes(meshes, true, true);
             _mesh.RecalculateNormals();
-
+            _mesh.Optimize();
             _collider.sharedMesh = _mesh;
 
-            _renderer.material.color = new Color(0, 255, 10);
+            _renderer.material.color = new Color(0, 255, 5);
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Grid
         private Pawn _pawn;
 
         public Mesh Mesh => _mesh.Mesh;
+        public MeshFilter MeshFilter => _mesh.MeshFilter;
         
         private void OnMouseDown()
         {

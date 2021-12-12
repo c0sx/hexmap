@@ -15,6 +15,7 @@ namespace Grid
         private MeshRenderer _renderer;
 
         public Mesh Mesh => _mesh;
+        public MeshFilter MeshFilter => _meshFilter;
 
         private void Awake()
         {

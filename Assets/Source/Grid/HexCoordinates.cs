@@ -1,8 +1,10 @@
+using System;
+
 using UnityEngine;
 
 namespace Grid 
 {
-    [System.Serializable]
+    [Serializable]
     public class HexCoordinates
     {
         [SerializeField] private readonly int _x;
