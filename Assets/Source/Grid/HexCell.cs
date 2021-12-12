@@ -1,3 +1,5 @@
+using System;
+
 using UnityEngine;
 
 namespace Grid 
@@ -5,6 +7,8 @@ namespace Grid
     [RequireComponent(typeof(HexCellMesh))]
     public class HexCell : MonoBehaviour
     {
+        public Action<HexCell> Clicked;
+
         [SerializeField] private HexCoordinates _coordinates;
         [SerializeField] private Pawn _pawnPrefab;
         [SerializeField] private Color _current;
@@ -12,6 +16,11 @@ namespace Grid
         private HexCellMesh _mesh;
         private HexMetrics _metrics;
         private Pawn _pawn;
+        
+        private void OnMouseDown()
+        {
+            Clicked?.Invoke(this);
+        }
 
         public void Init(HexCoordinates coordinates, HexMetrics metrics)
         {

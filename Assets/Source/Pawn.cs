@@ -38,9 +38,6 @@ public class Pawn : MonoBehaviour
 
     private void ToggleSelection()
     {
-        (_previous, _current) = (_current, _previous);
-        _mesh.material.color = _current;
-
         Clicked?.Invoke(this);
     }
 }

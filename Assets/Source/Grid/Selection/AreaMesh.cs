@@ -2,54 +2,50 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Grid 
+namespace Grid.Selection
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
-    public class HexCellMesh : MonoBehaviour
+    public class AreaMesh : MonoBehaviour
     {
         private Mesh _mesh;
+        private MeshCollider _collider;
+        private MeshFilter _meshFilter;
+        private MeshRenderer _renderer;
         private List<Vector3> _vertices;
         private List<int> _triangles;
-        private MeshFilter _meshFilter;
-        private MeshCollider _collider;
-        private MeshRenderer _renderer;
 
         private void Awake()
         {
+            _vertices = new List<Vector3>();
+            _triangles = new List<int>();
+
             _mesh = new Mesh();
-            _mesh.name = "Hex Cell Mesh";
+            _mesh.name = "Selection Area Mesh";
 
             _meshFilter = GetComponent<MeshFilter>();
             _meshFilter.mesh = _mesh;
 
             _collider = GetComponent<MeshCollider>();
             _renderer = GetComponent<MeshRenderer>();
-
-            _vertices = new List<Vector3>();
-            _triangles = new List<int>();
         }
 
-        public void Triangulate(HexMetrics metrics, HexCell cell)
+        public void Triangulate(HexMetrics metrics)
         {
-            _mesh.Clear();
             _vertices.Clear();
             _triangles.Clear();
 
-            TriangulateCell(metrics, cell);
+            TriangulateCell(metrics);
 
             _mesh.vertices = _vertices.ToArray();
             _mesh.triangles = _triangles.ToArray();
             _mesh.RecalculateNormals();
 
             _collider.sharedMesh = _mesh;
+
+            _renderer.material.color = new Color(0, 255, 10);
         }
 
-        public void Color(Color color)
-        {
-            _renderer.material.color = color;
-        }
-
-        private void TriangulateCell(HexMetrics metrics, HexCell cell)
+        private void TriangulateCell(HexMetrics metrics)
         {
             var center = Vector3.zero;
             var corners = metrics.Corners;
@@ -75,6 +71,5 @@ namespace Grid
             _triangles.Add(index + 2);
         }
     }
-
 }
 

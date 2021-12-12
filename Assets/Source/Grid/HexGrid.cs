@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Grid.Selection;
+
 namespace Grid 
 {
     public class HexGrid: MonoBehaviour
@@ -16,11 +18,12 @@ namespace Grid
         [SerializeField] private Text _labelPrefab;
         [SerializeField] private PawnSpawner _top;
         [SerializeField] private PawnSpawner _bottom;
-        [SerializeField] private MovementHighlighter _movement;
+        [SerializeField] private Area _area;
 
         private HexMetrics _metrics;
         private List<HexCell> _cells;
         private List<Pawn> _pawns;
+        private List<Area> _selections;
 
         public List<HexCell> Cells => _cells;
         public int Width => _width;
@@ -32,6 +35,7 @@ namespace Grid
             _metrics = new HexMetrics(_outerRadius, _border);
             _cells = new List<HexCell>(_height * _width);
             _pawns = new List<Pawn>();
+            _selections = new List<Area>();
 
             for (int z = 0, i = 0; z < _height; z++, i = 0) {
                 for (int x = 0; x < _width; x++) {
@@ -111,21 +115,33 @@ namespace Grid
 
         private void Subscribe()
         {
+            foreach (var cell in _cells) {
+                cell.Clicked += SelectCell;
+            }
+
             foreach (var pawn in _pawns) {
-                pawn.Clicked += HighlightAround;
+                pawn.Clicked += SelectPawn;
             }
         }
 
         private void Unsubscribe()
         {
             foreach (var pawn in _pawns) {
-                pawn.Clicked -= HighlightAround;
+                pawn.Clicked -= SelectPawn;
+            }
+
+            foreach (var cell in _cells) {
+                cell.Clicked -= SelectCell;
             }
         }
 
-        private void HighlightAround(Pawn pawn)
+        private void SelectPawn(Pawn pawn)
         {
-            _movement.Highlight(pawn.Cell);
+            _area.Select(_metrics, pawn.Cell);
+        }
+
+        private void SelectCell(HexCell cell) {
+            _area.Select(_metrics, cell);
         }
     }
 }
