@@ -11,7 +11,7 @@ namespace Grid.Cell
 
         [SerializeField] private HexCoordinates _coordinates;
         [SerializeField] private Pawn _pawnPrefab;
-        private SelectionState _state;
+        [SerializeField] private SelectionState _state;
         private Color _current;
         private HexCellMesh _mesh;
         private HexMetrics _metrics;
@@ -24,7 +24,7 @@ namespace Grid.Cell
         
         private void OnMouseDown()
         {
-            if (Occupied) {
+            if (_state.IsClickable(this)) {
                 Clicked?.Invoke(this);
             }
         }
@@ -37,7 +37,7 @@ namespace Grid.Cell
             _mesh = GetComponent<HexCellMesh>();
             _state = GetComponent<SelectionState>();
 
-            _state.Init(_mesh.MeshRenderer);
+            _state.Init(this);
         }
 
         public void Triangulate()
@@ -47,7 +47,7 @@ namespace Grid.Cell
 
         public void Select()
         {
-            _state.Select(_mesh.MeshRenderer);
+            _state.Select();
         }
 
         public void SelectPawn()
@@ -57,7 +57,7 @@ namespace Grid.Cell
 
         public void Deselect()
         {
-            _state.Deselect(_mesh.MeshRenderer);
+            _state.Deselect();
             _pawn?.Deselect();
         }
 
@@ -67,6 +67,12 @@ namespace Grid.Cell
 
             _pawn.transform.SetParent(transform);
             _pawn.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+        }
+        
+        public void MovePawn(HexCell to)
+        {
+            to.PlacePawn(_pawn);
+            _pawn = null;
         }
 
         public bool HasPawn(Pawn pawn)

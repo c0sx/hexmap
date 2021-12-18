@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1317891525060426191}
   - component: {fileID: 1401603848019746696}
   - component: {fileID: 6321816387615254203}
-  - component: {fileID: 6406870951485185531}
+  - component: {fileID: 4162084247630870307}
   m_Layer: 0
   m_Name: HexCell
   m_TagString: Untagged
@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pawnPrefab: {fileID: -7475542407422028425, guid: 7b9f305e57e988948af5fb9e92379b91, type: 3}
+  _state: {fileID: 0}
 --- !u!33 &6935276982704373422
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -124,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84e707e429fbbc45a16fae17ce71823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6406870951485185531
+--- !u!114 &4162084247630870307
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,5 +137,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3df590c5c7a2bd9488381eb94bbbe117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultMaterial: {fileID: 2100000, guid: 2ed4913052c5d5147bac0f1bbb8c71a1, type: 2}
-  _selectedMaterial: {fileID: 2100000, guid: 94fa815c7b9f5b1429d2c817f376ad67, type: 2}
+  _default: {fileID: 2100000, guid: 2ed4913052c5d5147bac0f1bbb8c71a1, type: 2}
+  _selected: {fileID: 2100000, guid: 94fa815c7b9f5b1429d2c817f376ad67, type: 2}

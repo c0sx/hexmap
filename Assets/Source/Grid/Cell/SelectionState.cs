@@ -1,26 +1,35 @@
 using UnityEngine;
 
-namespace Grid.Cell 
+namespace Grid.Cell
 {
-    public class SelectionState : MonoBehaviour
+    public class SelectionState: MonoBehaviour
     {
-        [SerializeField] private Material _defaultMaterial;
-        [SerializeField] private Material _selectedMaterial;
+        [SerializeField] private Material _default;
+        [SerializeField] private Material _selected;
 
-        public void Init(Renderer renderer) 
+        private State _current;
+        private Renderer _renderer;
+
+        public void Init(HexCell cell)
         {
-            renderer.material = _defaultMaterial;
-        }
-        
-        public void Select(Renderer renderer)
-        {
-            renderer.material = _selectedMaterial;
+            _renderer = cell.MeshRenderer;
+            _current = new Default(_default, _renderer);
         }
 
-        public void Deselect(Renderer renderer)
+        public void Select()
         {
-            renderer.material = _defaultMaterial;
+            _current = new Selected(_selected, _renderer);
         }
+
+        public void Deselect()
+        {
+            _current = new Default(_default, _renderer);
+        }
+
+        public bool IsClickable(HexCell cell) 
+        {
+            return _current.IsClickable(cell);
+        }        
     }
 }
 

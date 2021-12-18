@@ -118,10 +118,6 @@ namespace Grid
 
         private void Subscribe()
         {
-            foreach (var cell in _cells) {
-                cell.Clicked += SelectCell;
-            }
-
             foreach (var pawn in _pawns) {
                 pawn.Clicked += SelectPawn;
             }
@@ -131,10 +127,6 @@ namespace Grid
         {
             foreach (var pawn in _pawns) {
                 pawn.Clicked -= SelectPawn;
-            }
-
-            foreach (var cell in _cells) {
-                cell.Clicked -= SelectCell;
             }
         }
 
