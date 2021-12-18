@@ -24,8 +24,9 @@ namespace Grid.Selection
                 0
             );
 
-            _mesh.Triangulate(group.Cells);
-            _current.Cells.ForEach(cell => cell.Select());
+            // _mesh.Triangulate(group.Cells);
+            group.Center.SelectPawn();
+            group.Cells.ForEach(cell => cell.Select());
         }
     }
 

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Grid 
+namespace Grid.Cell
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
     public class HexCellMesh : MonoBehaviour
@@ -16,6 +16,7 @@ namespace Grid
 
         public Mesh Mesh => _mesh;
         public MeshFilter MeshFilter => _meshFilter;
+        public MeshRenderer MeshRenderer => _renderer;
 
         private void Awake()
         {

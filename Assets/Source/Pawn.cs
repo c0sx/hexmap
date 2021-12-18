@@ -2,7 +2,7 @@ using UnityEngine;
 
 using System;
 
-using Grid;
+using Grid.Cell;
 
 [RequireComponent(typeof(MeshRenderer))]
 public class Pawn : MonoBehaviour

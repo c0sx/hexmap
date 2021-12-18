@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine;
 
-namespace Grid 
+namespace Grid.Cell
 {
     [Serializable]
     public class HexCoordinates

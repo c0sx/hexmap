@@ -6,7 +6,7 @@ namespace Grid
 {
     public class HexCellSelector : MonoBehaviour
     {
-        public List<HexCell> Select(HexGrid grid, HexCell cell)
+        public Selection.Group Select(HexGrid grid, Cell.HexCell cell)
         {
 
             var index = grid.Cells.FindIndex(one => one == cell);
@@ -21,20 +21,27 @@ namespace Grid
             var topLeft = topRowIndex * width + leftOffset + rowOffset;
             var topRight = topLeft + 1;
 
-            var left = index - 1;
-            var right = index + 1;
+            var isLeftBorder = index - 10 * rowIndex == 0;
+            var isRightBorder = index - 9 - 10 * rowIndex == 0;
 
-            var bottomRowIndex = rowIndex - 1;
-            var bottomLeft = bottomRowIndex * width + leftOffset + rowOffset;
-            var bottomRight = bottomLeft + 1;
+            var isTopLeftAvailable = isLeftBorder ? topLeft - 10 == index : true;
+            var isTopRightAvailable = isRightBorder ? topRight - 10 == index : true;
 
-            var indexes = new List<int>() { topLeft, topRight, left, right, bottomLeft, bottomRight };
-            var otherCells = indexes.ConvertAll<HexCell>(index => {
+            var indexes = new List<int>();
+            if (isTopLeftAvailable) {
+                indexes.Add(topLeft);
+            }
+
+            if (isTopRightAvailable) {
+                indexes.Add(topRight);
+            }
+                
+            var otherCells = indexes.ConvertAll<Cell.HexCell>(index => {
                 return grid.Cells[index];
             });
 
             otherCells.Add(cell);
-            return otherCells;
+            return new Selection.Group(cell, otherCells);
         }
     }
 

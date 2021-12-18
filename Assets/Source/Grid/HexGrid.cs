@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Grid.Selection;
+using Grid.Cell;
 
 namespace Grid 
 {
@@ -35,7 +36,7 @@ namespace Grid
         {
             _selector = GetComponent<HexCellSelector>();
             _metrics = new HexMetrics(_outerRadius, _border);
-            _cells = new List<HexCell>(_height * _width);
+            _cells = new List<Cell.HexCell>(_height * _width);
             _pawns = new List<Pawn>();
 
             for (int z = 0, i = 0; z < _height; z++, i = 0) {
@@ -146,8 +147,7 @@ namespace Grid
 
         private void SelectCell(HexCell cell) {
             var selected = _selector.Select(this, cell);
-            var group = new Selection.Group(cell, selected);
-            _area.Select(group);
+            _area.Select(selected);
         }
     }
 }

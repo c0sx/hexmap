@@ -2,17 +2,16 @@ using System;
 
 using UnityEngine;
 
-namespace Grid 
+namespace Grid.Cell
 {
-    [RequireComponent(typeof(HexCellMesh))]
+    [RequireComponent(typeof(HexCellMesh), typeof(SelectionState))]
     public class HexCell : MonoBehaviour
     {
         public Action<HexCell> Clicked;
 
         [SerializeField] private HexCoordinates _coordinates;
         [SerializeField] private Pawn _pawnPrefab;
-        [SerializeField] private Color _notSelected;
-        [SerializeField] private Color _selected;
+        private SelectionState _state;
         private Color _current;
         private HexCellMesh _mesh;
         private HexMetrics _metrics;
@@ -23,7 +22,9 @@ namespace Grid
         
         private void OnMouseDown()
         {
-            Clicked?.Invoke(this);
+            if (_pawn != null) {
+                Clicked?.Invoke(this);
+            }
         }
 
         public void Init(HexCoordinates coordinates, HexMetrics metrics)
@@ -32,6 +33,8 @@ namespace Grid
             _metrics = metrics;
 
             _mesh = GetComponent<HexCellMesh>();
+            _state = GetComponent<SelectionState>();
+            _state.Init(_mesh.MeshRenderer);
         }
 
         public void Triangulate()
@@ -41,13 +44,17 @@ namespace Grid
 
         public void Select()
         {
-            _current = _selected;
+            _state.Select(_mesh.MeshRenderer);
+        }
+
+        public void SelectPawn()
+        {
             _pawn?.Select();
         }
 
         public void Deselect()
         {
-            _current = _notSelected;
+            _state.Deselect(_mesh.MeshRenderer);
             _pawn?.Deselect();
         }
 

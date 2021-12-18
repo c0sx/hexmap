@@ -2,6 +2,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using Grid.Cell;
+
 namespace Grid.Selection
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]

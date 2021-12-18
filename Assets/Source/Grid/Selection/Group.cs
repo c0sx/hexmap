@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+using Grid.Cell;
+
 namespace Grid.Selection
 {
     public class Group
