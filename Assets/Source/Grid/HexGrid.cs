@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 using Grid.Selection;
 using Grid.Cell;
+using Grid.Selector;
 
 namespace Grid 
 {

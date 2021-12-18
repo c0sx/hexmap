@@ -2,13 +2,12 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Grid
+namespace Grid.Selector
 {
     public class HexCellSelector : MonoBehaviour
     {
         public Selection.Group Select(HexGrid grid, Cell.HexCell cell)
         {
-
             var index = grid.Cells.FindIndex(one => one == cell);
             var width = grid.Width;
             var heigth = grid.Height;
@@ -24,21 +23,11 @@ namespace Grid
             var isLeftBorder = index - 10 * rowIndex == 0;
             var isRightBorder = index - 9 - 10 * rowIndex == 0;
 
-            var isTopLeftAvailable = isLeftBorder ? topLeft - 10 == index : true;
-            var isTopRightAvailable = isRightBorder ? topRight - 10 == index : true;
-
-            var indexes = new List<int>();
-            if (isTopLeftAvailable) {
-                indexes.Add(topLeft);
-            }
-
-            if (isTopRightAvailable) {
-                indexes.Add(topRight);
-            }
-                
-            var otherCells = indexes.ConvertAll<Cell.HexCell>(index => {
-                return grid.Cells[index];
-            });
+            var borders = new Borders(grid.Width, grid.Height);
+            var indexes = borders.IncludesIndexes(topRowIndex, new List<int> { topLeft, topRight });
+            var otherCells = indexes
+                .ConvertAll<Cell.HexCell>(index => grid.Cells[index])
+                .FindAll(cell => !cell.Occupied);
 
             otherCells.Add(cell);
             return new Selection.Group(cell, otherCells);

@@ -19,10 +19,12 @@ namespace Grid.Cell
 
         public Mesh Mesh => _mesh.Mesh;
         public MeshFilter MeshFilter => _mesh.MeshFilter;
+        public MeshRenderer MeshRenderer => _mesh.MeshRenderer;
+        public bool Occupied => _pawn != null;
         
         private void OnMouseDown()
         {
-            if (_pawn != null) {
+            if (Occupied) {
                 Clicked?.Invoke(this);
             }
         }
@@ -34,6 +36,7 @@ namespace Grid.Cell
 
             _mesh = GetComponent<HexCellMesh>();
             _state = GetComponent<SelectionState>();
+
             _state.Init(_mesh.MeshRenderer);
         }
 
@@ -57,7 +60,6 @@ namespace Grid.Cell
             _state.Deselect(_mesh.MeshRenderer);
             _pawn?.Deselect();
         }
-
 
         public void PlacePawn(Pawn pawn)
         {

@@ -4,22 +4,22 @@ namespace Grid.Cell
 {
     public class SelectionState : MonoBehaviour
     {
-        [SerializeField] private Material _default;
-        [SerializeField] private Material _selected;
+        [SerializeField] private Material _defaultMaterial;
+        [SerializeField] private Material _selectedMaterial;
 
         public void Init(Renderer renderer) 
         {
-            renderer.material = _default;
+            renderer.material = _defaultMaterial;
         }
-
+        
         public void Select(Renderer renderer)
         {
-            renderer.material = _selected;
+            renderer.material = _selectedMaterial;
         }
 
         public void Deselect(Renderer renderer)
         {
-            renderer.material = _default;
+            renderer.material = _defaultMaterial;
         }
     }
 }
