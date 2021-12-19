@@ -20,7 +20,7 @@ namespace Unit
 
         private void OnMouseDown()
         {
-            ToggleSelection();
+            Clicked?.Invoke(this);
         }
 
         public void Select()
@@ -40,11 +40,6 @@ namespace Unit
 
             _mesh = GetComponent<MeshRenderer>();
             _mesh.material.color = _notSelected;
-        }
-
-        private void ToggleSelection()
-        {
-            Clicked?.Invoke(this);
         }
     }
 }

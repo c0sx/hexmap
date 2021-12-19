@@ -1,3 +1,5 @@
+using System;
+
 using UnityEngine;
 
 using Grid.Cell;
@@ -7,6 +9,8 @@ namespace Grid.Selection
     public class Area : MonoBehaviour
     {
         private Group _current;
+
+        public Action PawnMoved;
 
         public void Select(Group group)
         {
@@ -49,6 +53,8 @@ namespace Grid.Selection
         {
             _current.Center.MovePawn(to);
             Clear();
+
+            PawnMoved?.Invoke();
         }
 
         private void Clear()

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.UI;
 
 using Grid.Selection;
 using Grid.Cell;
@@ -10,20 +9,19 @@ using Unit;
 
 namespace Grid 
 {
-    [RequireComponent(typeof(HexCellSelector))]
+    [RequireComponent(typeof(HexCellSelector), typeof(Turn))]
     public class HexGrid: MonoBehaviour
     {
         [SerializeField] private float _outerRadius = 10f;
         [SerializeField] private int _width = 10;
         [SerializeField] private int _height = 10;
         [SerializeField] private float _border = 0.5f;
-        [SerializeField] private Canvas _canvas;
         [SerializeField] private GridCell _cellPrefab;
-        [SerializeField] private Text _labelPrefab;
         [SerializeField] private Spawner _top;
         [SerializeField] private Spawner _bottom;
         [SerializeField] private Area _area;
-
+        
+        private Turn _turn;
         private HexCellSelector _selector;
         private Metrics _metrics;
         private List<GridCell> _cells;
@@ -36,6 +34,7 @@ namespace Grid
 
         private void Awake()
         {
+            _turn = GetComponent<Turn>();
             _selector = GetComponent<HexCellSelector>();
             _metrics = new Metrics(_outerRadius, _border);
             _cells = new List<Cell.GridCell>(_height * _width);
@@ -59,6 +58,7 @@ namespace Grid
             PlaceSpawners();
             SpawnPawns();
             Subscribe();
+            SetTurn();
         }
 
         private void Destroy()
@@ -109,11 +109,6 @@ namespace Grid
             var coordinates = Coordinates.FromOffsetCoordinates(x, z);
             cell.Init(coordinates, _metrics);
 
-            var label = Instantiate<Text>(_labelPrefab);
-            label.rectTransform.SetParent(_canvas.transform, false);
-            label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);        
-            label.text = cell.ToString();
-
             return cell;
         }
 
@@ -122,6 +117,8 @@ namespace Grid
             foreach (var pawn in _pawns) {
                 pawn.Clicked += SelectPawn;
             }
+
+            _area.PawnMoved += _turn.Next;
         }
 
         private void Unsubscribe()
@@ -129,19 +126,29 @@ namespace Grid
             foreach (var pawn in _pawns) {
                 pawn.Clicked -= SelectPawn;
             }
+
+            _area.PawnMoved -= _turn.Next;
         }
 
         private void SelectPawn(Pawn pawn)
         {
-            var cell = _cells.Find(one => one.HasPawn(pawn));
-            if (cell != null) {
-                SelectCell(cell);
+            if (_turn.IsActivePlayer(pawn)) {
+                var cell = _cells.Find(one => one.HasPawn(pawn));
+                if (cell != null) {
+                    SelectCell(cell);
+                }
             }
         }
 
-        private void SelectCell(GridCell cell) {
-            var selected = _selector.Select(this, cell);
+        private void SelectCell(GridCell cell) 
+        {
+            var selected = _selector.Select(_turn, this, cell);
             _area.Select(selected);
+        }
+
+        private void SetTurn()
+        {
+            _turn.Next();
         }
     }
 }
