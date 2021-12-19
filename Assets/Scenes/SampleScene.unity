@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 274805248}
   m_Layer: 0
   m_Name: TopSpawner
-  m_TagString: Untagged
+  m_TagString: Top Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -345,7 +345,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &274805248
 MonoBehaviour:
@@ -796,7 +796,7 @@ GameObject:
   - component: {fileID: 942714331}
   m_Layer: 0
   m_Name: BottomSpawner
-  m_TagString: Untagged
+  m_TagString: Bottom Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -827,7 +827,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &942714330
 MonoBehaviour:
@@ -968,6 +968,7 @@ GameObject:
   - component: {fileID: 1395610075}
   - component: {fileID: 1395610076}
   - component: {fileID: 1395610077}
+  - component: {fileID: 1395610078}
   m_Layer: 0
   m_Name: HexGrid
   m_TagString: Untagged
@@ -995,7 +996,6 @@ MonoBehaviour:
   _top: {fileID: 274805246}
   _bottom: {fileID: 942714328}
   _area: {fileID: 794055706}
-  _camera: {fileID: 963194227}
 --- !u!114 &1395610076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1021,6 +1021,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1395610078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395610074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1caaa69686a0dc2468f97d67ee5bc18b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _players:
+  - {fileID: 942714330}
+  - {fileID: 274805248}
 --- !u!4 &1395610079
 Transform:
   m_ObjectHideFlags: 0

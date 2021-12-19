@@ -17,11 +17,13 @@ namespace Grid
         private void Start()
         {
             _player = GetComponent<Player>();
+            _player.tag = gameObject.tag;
         }
 
         public Pawn Spawn()
         {
             var pawn = Instantiate<Pawn>(_pawnPrefab);
+            pawn.tag = gameObject.tag;
             _player.Add(pawn);
 
             return pawn;
