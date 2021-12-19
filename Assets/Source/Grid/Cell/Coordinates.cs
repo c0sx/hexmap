@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Grid.Cell
 {
     [Serializable]
-    public class HexCoordinates
+    public class Coordinates
     {
         [SerializeField] private readonly int _x;
         [SerializeField] private readonly int _z;
@@ -14,11 +14,11 @@ namespace Grid.Cell
         public int Z => _z;
         public int Y => -X - Z;
 
-        public static HexCoordinates FromOffsetCoordinates(int x, int z) {
-            return new HexCoordinates(x - z / 2, z);
+        public static Coordinates FromOffsetCoordinates(int x, int z) {
+            return new Coordinates(x - z / 2, z);
         }
 
-        public static HexCoordinates FromPosition(Vector3 position, HexMetrics metrics) {
+        public static Coordinates FromPosition(Vector3 position, Metrics metrics) {
             float x = position.x / (metrics.InnerRadius * 2f);
             float y = -x;
 
@@ -43,10 +43,10 @@ namespace Grid.Cell
                 }
             }
 
-            return new HexCoordinates(iX, iZ);
+            return new Coordinates(iX, iZ);
         }
 
-        public HexCoordinates(int x, int z) {
+        public Coordinates(int x, int z) {
             _x = x;
             _z = z;
         }   

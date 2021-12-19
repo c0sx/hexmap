@@ -2,19 +2,21 @@ using System;
 
 using UnityEngine;
 
+using Unit;
+
 namespace Grid.Cell
 {
-    [RequireComponent(typeof(HexCellMesh), typeof(SelectionState))]
-    public class HexCell : MonoBehaviour
+    [RequireComponent(typeof(CellMesh), typeof(State.SelectionState))]
+    public class GridCell : MonoBehaviour
     {
-        public Action<HexCell> Clicked;
+        public Action<GridCell> Clicked;
 
-        [SerializeField] private HexCoordinates _coordinates;
+        [SerializeField] private Coordinates _coordinates;
         [SerializeField] private Pawn _pawnPrefab;
-        [SerializeField] private SelectionState _state;
+        [SerializeField] private State.SelectionState _state;
         private Color _current;
-        private HexCellMesh _mesh;
-        private HexMetrics _metrics;
+        private CellMesh _mesh;
+        private Metrics _metrics;
         private Pawn _pawn;
 
         public Mesh Mesh => _mesh.Mesh;
@@ -29,13 +31,13 @@ namespace Grid.Cell
             }
         }
 
-        public void Init(HexCoordinates coordinates, HexMetrics metrics)
+        public void Init(Coordinates coordinates, Metrics metrics)
         {
             _coordinates = coordinates;
             _metrics = metrics;
 
-            _mesh = GetComponent<HexCellMesh>();
-            _state = GetComponent<SelectionState>();
+            _mesh = GetComponent<CellMesh>();
+            _state = GetComponent<State.SelectionState>();
 
             _state.Init(this);
         }
@@ -69,7 +71,7 @@ namespace Grid.Cell
             _pawn.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
         }
         
-        public void MovePawn(HexCell to)
+        public void MovePawn(GridCell to)
         {
             to.PlacePawn(_pawn);
             _pawn = null;

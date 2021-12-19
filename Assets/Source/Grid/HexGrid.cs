@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Grid.Selection;
 using Grid.Cell;
 using Grid.Selector;
+using Unit;
 
 namespace Grid 
 {
@@ -17,18 +18,18 @@ namespace Grid
         [SerializeField] private int _height = 10;
         [SerializeField] private float _border = 0.5f;
         [SerializeField] private Canvas _canvas;
-        [SerializeField] private HexCell _cellPrefab;
+        [SerializeField] private GridCell _cellPrefab;
         [SerializeField] private Text _labelPrefab;
-        [SerializeField] private PawnSpawner _top;
-        [SerializeField] private PawnSpawner _bottom;
+        [SerializeField] private Spawner _top;
+        [SerializeField] private Spawner _bottom;
         [SerializeField] private Area _area;
 
         private HexCellSelector _selector;
-        private HexMetrics _metrics;
-        private List<HexCell> _cells;
+        private Metrics _metrics;
+        private List<GridCell> _cells;
         private List<Pawn> _pawns;
 
-        public List<HexCell> Cells => _cells;
+        public List<GridCell> Cells => _cells;
         public int Width => _width;
         public int Height => _height;
 
@@ -36,8 +37,8 @@ namespace Grid
         private void Awake()
         {
             _selector = GetComponent<HexCellSelector>();
-            _metrics = new HexMetrics(_outerRadius, _border);
-            _cells = new List<Cell.HexCell>(_height * _width);
+            _metrics = new Metrics(_outerRadius, _border);
+            _cells = new List<Cell.GridCell>(_height * _width);
             _pawns = new List<Pawn>();
 
             for (int z = 0, i = 0; z < _height; z++, i = 0) {
@@ -89,7 +90,7 @@ namespace Grid
             }
         }
 
-        private void SpawnPawn(HexCell cell, PawnSpawner spawner)
+        private void SpawnPawn(GridCell cell, Spawner spawner)
         {
             var pawn = spawner.Spawn();
             _pawns.Add(pawn);
@@ -97,15 +98,15 @@ namespace Grid
             cell.PlacePawn(pawn);
         }
 
-        private HexCell CreateCell(int i, int x, int z)
+        private GridCell CreateCell(int i, int x, int z)
         {
             var position = _metrics.GetPositionFor(i, x, z);
 
-            var cell = Instantiate<HexCell>(_cellPrefab);
+            var cell = Instantiate<GridCell>(_cellPrefab);
             cell.transform.SetParent(transform, false);
             cell.transform.localPosition = position;
 
-            var coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
+            var coordinates = Coordinates.FromOffsetCoordinates(x, z);
             cell.Init(coordinates, _metrics);
 
             var label = Instantiate<Text>(_labelPrefab);
@@ -138,7 +139,7 @@ namespace Grid
             }
         }
 
-        private void SelectCell(HexCell cell) {
+        private void SelectCell(GridCell cell) {
             var selected = _selector.Select(this, cell);
             _area.Select(selected);
         }

@@ -6,13 +6,13 @@ namespace Grid.Selection
 {
     public class Group
     {
-        private readonly HexCell _center;
-        private readonly List<HexCell> _cells;
+        private readonly GridCell _center;
+        private readonly List<GridCell> _cells;
 
-        public HexCell Center => _center;
-        public List<HexCell> Cells => _cells;
+        public GridCell Center => _center;
+        public List<GridCell> Cells => _cells;
 
-        public Group(HexCell center, List<HexCell> cells)
+        public Group(GridCell center, List<GridCell> cells)
         {
             _center = center;
             _cells = cells;
