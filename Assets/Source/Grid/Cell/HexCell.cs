@@ -2,6 +2,8 @@ using System;
 
 using UnityEngine;
 
+using Unit;
+
 namespace Grid.Cell
 {
     [RequireComponent(typeof(HexCellMesh), typeof(SelectionState))]

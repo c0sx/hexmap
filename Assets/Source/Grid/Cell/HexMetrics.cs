@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Grid
+namespace Grid.Cell
 {
         public class HexMetrics
     {

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Grid.Selection;
 using Grid.Cell;
 using Grid.Selector;
+using Unit;
 
 namespace Grid 
 {
@@ -19,8 +20,8 @@ namespace Grid
         [SerializeField] private Canvas _canvas;
         [SerializeField] private HexCell _cellPrefab;
         [SerializeField] private Text _labelPrefab;
-        [SerializeField] private PawnSpawner _top;
-        [SerializeField] private PawnSpawner _bottom;
+        [SerializeField] private Spawner _top;
+        [SerializeField] private Spawner _bottom;
         [SerializeField] private Area _area;
 
         private HexCellSelector _selector;
@@ -89,7 +90,7 @@ namespace Grid
             }
         }
 
-        private void SpawnPawn(HexCell cell, PawnSpawner spawner)
+        private void SpawnPawn(HexCell cell, Spawner spawner)
         {
             var pawn = spawner.Spawn();
             _pawns.Add(pawn);

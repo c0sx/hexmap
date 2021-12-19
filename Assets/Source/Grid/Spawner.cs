@@ -1,6 +1,8 @@
 using UnityEngine;
 
-public class PawnSpawner : MonoBehaviour
+using Unit;
+
+public class Spawner : MonoBehaviour
 {
     [SerializeField] private int _size = 2;
     [SerializeField] private Pawn _pawnPrefab;
