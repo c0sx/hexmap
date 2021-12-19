@@ -12,11 +12,11 @@ namespace Unit
         private MeshRenderer _mesh;
         private Color _notSelected;
         private Color _selected;
-        private HexCell _cell;
+        private GridCell _cell;
 
         public Action<Pawn> Clicked;
 
-        public HexCell Cell => _cell;
+        public GridCell Cell => _cell;
 
         private void OnMouseDown()
         {
@@ -40,6 +40,11 @@ namespace Unit
         public void Deselect()
         {
             _mesh.material.color = _notSelected;
+        }
+
+        public void AssignTeam(Team team)
+        {
+
         }
 
         private void ToggleSelection()

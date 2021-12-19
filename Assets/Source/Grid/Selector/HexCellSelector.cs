@@ -6,7 +6,7 @@ namespace Grid.Selector
 {
     public class HexCellSelector : MonoBehaviour
     {
-        public Selection.Group Select(HexGrid grid, Cell.HexCell cell)
+        public Selection.Group Select(HexGrid grid, Cell.GridCell cell)
         {
             var index = grid.Cells.FindIndex(one => one == cell);
             var width = grid.Width;
@@ -26,7 +26,7 @@ namespace Grid.Selector
             var borders = new Borders(grid.Width, grid.Height);
             var indexes = borders.IncludesIndexes(topRowIndex, new List<int> { topLeft, topRight });
             var otherCells = indexes
-                .ConvertAll<Cell.HexCell>(index => grid.Cells[index])
+                .ConvertAll<Cell.GridCell>(index => grid.Cells[index])
                 .FindAll(cell => !cell.Occupied);
 
             otherCells.Add(cell);

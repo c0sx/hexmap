@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Grid.Cell
 {
-        public class HexMetrics
+        public class Metrics
     {
         private readonly float _outerRadius;
         private readonly float _innerRadius;
@@ -13,7 +13,7 @@ namespace Grid.Cell
         public float OuterRadius => _outerRadius;
         public float InnerRadius => _innerRadius;
 
-        public HexMetrics(float outerRadius, float border)
+        public Metrics(float outerRadius, float border)
         {
             _outerRadius = outerRadius;
             _innerRadius = GetInnerRadius(_outerRadius);

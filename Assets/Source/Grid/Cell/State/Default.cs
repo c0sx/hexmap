@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Grid.Cell
+namespace Grid.Cell.State
 {
-    public class Default: State
+    public class Default: IState
     {
         private Material _material;
 
@@ -14,7 +14,7 @@ namespace Grid.Cell
             renderer.material = material;
         }
 
-        public bool IsClickable(HexCell cell) 
+        public bool IsClickable(GridCell cell) 
         {
             return cell.Occupied;
         }

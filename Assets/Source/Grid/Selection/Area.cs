@@ -45,7 +45,7 @@ namespace Grid.Selection
             }
         }
 
-        private void MovePawn(HexCell to)
+        private void MovePawn(GridCell to)
         {
             _current.Center.MovePawn(to);
             Clear();

@@ -1,16 +1,16 @@
 using UnityEngine;
 
-namespace Grid.Cell
+namespace Grid.Cell.State
 {
     public class SelectionState: MonoBehaviour
     {
         [SerializeField] private Material _default;
         [SerializeField] private Material _selected;
 
-        private State _current;
+        private IState _current;
         private Renderer _renderer;
 
-        public void Init(HexCell cell)
+        public void Init(GridCell cell)
         {
             _renderer = cell.MeshRenderer;
             _current = new Default(_default, _renderer);
@@ -26,7 +26,7 @@ namespace Grid.Cell
             _current = new Default(_default, _renderer);
         }
 
-        public bool IsClickable(HexCell cell) 
+        public bool IsClickable(GridCell cell) 
         {
             return _current.IsClickable(cell);
         }        

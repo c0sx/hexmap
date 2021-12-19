@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Grid.Cell
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
-    public class HexCellMesh : MonoBehaviour
+    public class CellMesh : MonoBehaviour
     {
         private Mesh _mesh;
         private List<Vector3> _vertices;
@@ -33,7 +33,7 @@ namespace Grid.Cell
             _triangles = new List<int>();
         }
 
-        public void Triangulate(HexMetrics metrics, HexCell cell)
+        public void Triangulate(Metrics metrics, GridCell cell)
         {
             _mesh.Clear();
             _vertices.Clear();
@@ -53,7 +53,7 @@ namespace Grid.Cell
             _renderer.material.color = color;
         }
 
-        private void TriangulateCell(HexMetrics metrics, HexCell cell)
+        private void TriangulateCell(Metrics metrics, GridCell cell)
         {
             var center = Vector3.zero;
             var corners = metrics.Corners;
