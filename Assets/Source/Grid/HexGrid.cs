@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.UI;
 
 using Grid.Selection;
 using Grid.Cell;
@@ -17,12 +16,11 @@ namespace Grid
         [SerializeField] private int _width = 10;
         [SerializeField] private int _height = 10;
         [SerializeField] private float _border = 0.5f;
-        [SerializeField] private Canvas _canvas;
         [SerializeField] private GridCell _cellPrefab;
-        [SerializeField] private Text _labelPrefab;
         [SerializeField] private Spawner _top;
         [SerializeField] private Spawner _bottom;
         [SerializeField] private Area _area;
+        [SerializeField] private Camera _camera;
 
         private HexCellSelector _selector;
         private Metrics _metrics;
@@ -108,11 +106,6 @@ namespace Grid
 
             var coordinates = Coordinates.FromOffsetCoordinates(x, z);
             cell.Init(coordinates, _metrics);
-
-            var label = Instantiate<Text>(_labelPrefab);
-            label.rectTransform.SetParent(_canvas.transform, false);
-            label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);        
-            label.text = cell.ToString();
 
             return cell;
         }

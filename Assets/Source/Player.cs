@@ -1,3 +1,5 @@
+using System;
+
 using UnityEngine;
 
 using Unit;
@@ -7,7 +9,7 @@ public class Player : MonoBehaviour
 {
     private Team _team;
 
-    private void Start()
+    private void Awake()
     {
         _team = GetComponent<Team>();
     }
