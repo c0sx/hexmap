@@ -8,8 +8,10 @@ namespace Unit
     {
         [SerializeField] private List<Pawn> _pawns;
         [SerializeField] private Color _primary;
+        [SerializeField] private Color _selected;
 
-        public Color Color => _primary;
+        public Color Primary => _primary;
+        public Color Selected => _selected;
 
         private void Awake()
         {

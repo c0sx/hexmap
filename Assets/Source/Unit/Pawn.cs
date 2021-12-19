@@ -23,15 +23,6 @@ namespace Unit
             ToggleSelection();
         }
 
-        public void Init(Color defaultColor, Color selectedColor)
-        {
-            _notSelected = defaultColor;
-            _selected = selectedColor;
-
-            _mesh = GetComponent<MeshRenderer>();
-            _mesh.material.color = _notSelected;
-        }
-
         public void Select()
         {
             _mesh.material.color = _selected;
@@ -44,7 +35,11 @@ namespace Unit
 
         public void AssignTeam(Team team)
         {
+            _notSelected = team.Primary;
+            _selected = team.Selected;
 
+            _mesh = GetComponent<MeshRenderer>();
+            _mesh.material.color = _notSelected;
         }
 
         private void ToggleSelection()
