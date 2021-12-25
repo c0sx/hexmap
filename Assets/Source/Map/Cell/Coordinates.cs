@@ -16,8 +16,14 @@ namespace Map.Cell
         public int Z => _z;
         public int Y => -X - Z;
 
-        public static Coordinates FromOffsetCoordinates(int x, int z) {
+        public static Coordinates FromOffsetCoordinates(int x, int z) 
+        {
             return new Coordinates(x - z / 2, z);
+        }
+
+        public static Coordinates FromVector2(Vector2Int v) 
+        {
+            return new Coordinates(v.x, v.y);
         }
 
         public static Coordinates FromPosition(Vector3 position, Metrics metrics) {
@@ -52,6 +58,21 @@ namespace Map.Cell
             _x = x;
             _z = z;
         }   
+
+        public Vector2Int AxisWith(Coordinates target)
+        {
+            return new Vector2Int(X, Z) - new Vector2Int(target.X, target.Z);
+        }
+
+        public Vector2Int ToVector2Int()
+        {
+            return new Vector2Int(X, Z);
+        }
+
+        public bool IsEqual(Coordinates other)
+        {
+            return X == other.X && Z == other.Z && Y == other.Y;
+        }
 
         public override string ToString()
         {

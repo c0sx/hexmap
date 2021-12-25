@@ -1,8 +1,7 @@
 using System;
+using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.Events;
-
 
 using Map.Cell;
 
@@ -15,6 +14,7 @@ namespace Unit
         private Color _notSelected;
         private Color _selected;
         private GridCell _cell;
+        private int _direction;
 
         public Action<Pawn> Clicked;
 
@@ -39,9 +39,17 @@ namespace Unit
         {
             _notSelected = team.Primary;
             _selected = team.Selected;
+            _direction = team.Direction;
 
             _mesh = GetComponent<MeshRenderer>();
             _mesh.material.color = _notSelected;
+        }
+
+        public List<Vector2Int> GetAxises() {
+            var left = new Vector2Int(1, -1) * _direction;
+            var right = new Vector2Int(0, -1) * _direction;
+
+            return new List<Vector2Int>() { left, right };
         }
     }
 }

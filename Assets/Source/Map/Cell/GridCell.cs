@@ -23,6 +23,8 @@ namespace Map.Cell
         public Mesh Mesh => _mesh.Mesh;
         public MeshFilter MeshFilter => _mesh.MeshFilter;
         public MeshRenderer MeshRenderer => _mesh.MeshRenderer;
+        public Coordinates Coordinates => _coordinates;
+        public Pawn Pawn => _pawn;
         public bool Occupied => _pawn != null;
 
         private void Awake()
@@ -88,6 +90,11 @@ namespace Map.Cell
         public bool WithPawn(Pawn pawn)
         {
             return HasPawn() && _pawn == pawn;
+        }
+
+        public Vector2Int AxisWith(GridCell to)
+        {
+            return _coordinates.AxisWith(to.Coordinates);
         }
 
         public override string ToString()

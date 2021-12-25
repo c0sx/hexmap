@@ -1,29 +1,33 @@
 using System.Collections.Generic;
 
+using Map.Grid;
+using Map.Cell;
+
 namespace Map.Selector
 {
     public class Borders
     {
-        private int _width;
-        private int _height;
+        
+        private HexGrid _grid;
 
-        public Borders(int width, int height)
+        public Borders(HexGrid grid)
         {
-            _width = width;
-            _height = height;
+            _grid = grid;
         }
 
-        public bool Includes(int rowIndex, int cellIndex)
+        public List<Coordinates> IncludesCoordinates(List<Coordinates> coordinates) 
         {
-            var start = rowIndex * _width;
-            var end = start + _width - 1;
-
-            return cellIndex >= start && cellIndex <= end;
+            return coordinates.FindAll(coordinate => Includes(coordinate));
         }
 
-        public List<int> IncludesIndexes(int rowIndex, List<int> indexes) 
+        private bool Includes(Coordinates coordinate)
         {
-            return indexes.FindAll(index => Includes(rowIndex, index));
+            var maxX = _grid.Cells.GetMaxX();
+            var minX = _grid.Cells.GetMinX();
+            var maxZ = _grid.Cells.GetMaxZ();
+            var minZ = _grid.Cells.GetMinZ();
+
+            return coordinate.X >= minX && coordinate.X <= maxX && coordinate.Z >= minZ && coordinate.Z <= maxZ;
         }
     }
 }

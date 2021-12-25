@@ -10,10 +10,12 @@ namespace Unit
         [SerializeField] private List<Pawn> _pawns;
         [SerializeField] private Color _primary;
         [SerializeField] private Color _selected;
+        [SerializeField] private int _direction;
 
         public Color Primary => _primary;
         public Color Selected => _selected;
         public int Count => _pawns.Count;
+        public int Direction => _direction;
 
         public Action PawnAdded;
 
