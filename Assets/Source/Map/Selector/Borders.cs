@@ -15,13 +15,14 @@ namespace Map.Selector
             _grid = grid;
         }
 
-        public List<Coordinates> IncludesCoordinates(List<Coordinates> coordinates) 
+        public List<GridCell> Includes(List<GridCell> cells) 
         {
-            return coordinates.FindAll(coordinate => Includes(coordinate));
+            return cells.FindAll(cell => IncludesOne(cell));
         }
 
-        private bool Includes(Coordinates coordinate)
+        private bool IncludesOne(GridCell cell)
         {
+            var coordinate = cell.Coordinates;
             var maxX = _grid.Cells.GetMaxX();
             var minX = _grid.Cells.GetMinX();
             var maxZ = _grid.Cells.GetMaxZ();

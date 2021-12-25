@@ -35,6 +35,11 @@ namespace Unit
             _mesh.material.color = _notSelected;
         }
 
+        public bool IsEnemy(Pawn other)
+        {
+            return tag != other.tag;
+        }
+
         public void AssignTeam(Team team)
         {
             _notSelected = team.Primary;

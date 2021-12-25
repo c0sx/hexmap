@@ -51,6 +51,8 @@ namespace Map.Selection
 
         private void MovePawn(GridCell to)
         {
+            // check pawns between two points and eat it;
+            
             _current.Center.MovePawn(to);
             Clear();
 
