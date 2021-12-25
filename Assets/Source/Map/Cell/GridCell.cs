@@ -33,7 +33,6 @@ namespace Map.Cell
 
         private void Start()
         {
-            Debug.Log("Start");
             _mesh.Triangulate(_metrics);
         }
         
@@ -46,16 +45,9 @@ namespace Map.Cell
 
         public void Init(Coordinates coordinates, Metrics metrics)
         {
-            Debug.Log("Init");
             _coordinates = coordinates;
             _metrics = metrics;
             _state.Init(this);
-        }
-
-        public void Triangulate()
-        {
-            Debug.Log("Triangulate");
-            _mesh.Triangulate(_metrics);
         }
 
         public void Select()
@@ -88,13 +80,14 @@ namespace Map.Cell
             _pawn = null;
         }
 
-        public bool HasPawn(Pawn pawn)
+        public bool HasPawn()
         {
-            if (!_pawn) {
-                return false;
-            }
+            return _pawn != null;
+        }
 
-            return _pawn == pawn;
+        public bool WithPawn(Pawn pawn)
+        {
+            return HasPawn() && _pawn == pawn;
         }
 
         public override string ToString()

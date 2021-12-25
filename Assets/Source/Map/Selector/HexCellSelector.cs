@@ -24,7 +24,7 @@ namespace Map.Selector
 
         private Group MoveToTop(HexGrid grid, GridCell cell)
         {
-            var index = grid.Cells.FindIndex(one => one == cell);
+            var index = grid.Cells.List.FindIndex(one => one == cell);
             var width = grid.Width;
             var heigth = grid.Height;
             var rowIndex = Mathf.FloorToInt(index / width);
@@ -42,7 +42,7 @@ namespace Map.Selector
             var borders = new Borders(grid.Width, grid.Height);
             var indexes = borders.IncludesIndexes(topRowIndex, new List<int> { topLeft, topRight });
             var otherCells = indexes
-                .ConvertAll<GridCell>(index => grid.Cells[index])
+                .ConvertAll<GridCell>(index => grid.Cells.List[index])
                 .FindAll(cell => !cell.Occupied);
 
             otherCells.Add(cell);
@@ -51,7 +51,7 @@ namespace Map.Selector
 
         private Group MoveToBottom(HexGrid grid, GridCell cell)
         {
-            var index = grid.Cells.FindIndex(one => one == cell);
+            var index = grid.Cells.List.FindIndex(one => one == cell);
             var width = grid.Width;
             var heigth = grid.Height;
 
@@ -67,7 +67,7 @@ namespace Map.Selector
             var borders = new Borders(grid.Width, grid.Height);
             var indexes = borders.IncludesIndexes(bottomRowIndex, new List<int> { bottomLeft, bottomRight });
             var otherCells = indexes
-                .ConvertAll<GridCell>(index => grid.Cells[index])
+                .ConvertAll<GridCell>(index => grid.Cells.List[index])
                 .FindAll(cell => !cell.Occupied);
 
             otherCells.Add(cell);

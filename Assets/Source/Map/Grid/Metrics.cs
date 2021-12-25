@@ -11,6 +11,8 @@ namespace Map.Grid
         public Vector3[] Corners => _corners;
         public float OuterRadius => _options.OuterRadius;
         public float InnerRadius => _innerRadius;
+        public int Width => _options.Width;
+        public int Height => _options.Height;
 
         public Metrics(Options options)
         {

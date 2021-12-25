@@ -1,5 +1,6 @@
 using UnityEngine;
 
+using Map.Cell;
 using Unit;
 
 [RequireComponent(typeof(Player))]
@@ -16,6 +17,11 @@ public class Spawner : MonoBehaviour
     {
         _player = GetComponent<Player>();
         _player.tag = gameObject.tag;
+    }
+
+    public void Place(GridCell cell)
+    {
+        transform.position = cell.transform.position;
     }
 
     public Pawn Spawn()
