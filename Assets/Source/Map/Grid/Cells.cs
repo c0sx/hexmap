@@ -127,7 +127,6 @@ namespace Map.Grid
             cell.transform.localPosition = position;
 
             var coordinates = Coordinates.FromOffsetCoordinates(x, z);
-            Debug.Log(coordinates.ToVector2Int());
             cell.Init(coordinates, metrics);
 
             return cell;
