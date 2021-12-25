@@ -1,31 +1,30 @@
 using UnityEngine;
 
-namespace Grid.Cell
+namespace Grid
 {
-        public class Metrics
+    public class Metrics
     {
-        private readonly float _outerRadius;
+        private readonly Options _options;
         private readonly float _innerRadius;
-        private readonly float _border;
         private readonly Vector3[] _corners;
 
         public Vector3[] Corners => _corners;
-        public float OuterRadius => _outerRadius;
+        public float OuterRadius => _options.OuterRadius;
         public float InnerRadius => _innerRadius;
 
-        public Metrics(float outerRadius, float border)
+        public Metrics(Options options)
         {
-            _outerRadius = outerRadius;
-            _innerRadius = GetInnerRadius(_outerRadius);
-            _border = border;
-            _corners = CalculateCorners(_outerRadius, _innerRadius);
+            _options = options;
+            _innerRadius = GetInnerRadius(options.OuterRadius);
+            _corners = CalculateCorners(options.OuterRadius, _innerRadius);
         }
 
         public Vector3 GetPositionFor(int i, int x, int z) 
         {
-            float xPosition = (x + z * 0.5f - z / 2) * (_innerRadius * 2f + _border);
+            var border = _options.Border;
+            float xPosition = (x + z * 0.5f - z / 2) * (_innerRadius * 2f + border);
             float yPosition = 0f;
-            float zPosition = z * (_outerRadius * 1.5f + _border);
+            float zPosition = z * (_options.OuterRadius * 1.5f + border);
 
             return new Vector3(
                 xPosition,

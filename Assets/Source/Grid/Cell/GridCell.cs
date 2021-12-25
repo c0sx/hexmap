@@ -23,6 +23,18 @@ namespace Grid.Cell
         public MeshFilter MeshFilter => _mesh.MeshFilter;
         public MeshRenderer MeshRenderer => _mesh.MeshRenderer;
         public bool Occupied => _pawn != null;
+
+        private void Awake()
+        {
+            _mesh = GetComponent<CellMesh>();
+            _state = GetComponent<State.SelectionState>();
+        }
+
+        private void Start()
+        {
+            Debug.Log("Start");
+            _mesh.Triangulate(_metrics);
+        }
         
         private void OnMouseDown()
         {
@@ -33,18 +45,16 @@ namespace Grid.Cell
 
         public void Init(Coordinates coordinates, Metrics metrics)
         {
+            Debug.Log("Init");
             _coordinates = coordinates;
             _metrics = metrics;
-
-            _mesh = GetComponent<CellMesh>();
-            _state = GetComponent<State.SelectionState>();
-
             _state.Init(this);
         }
 
         public void Triangulate()
         {
-            _mesh.Triangulate(_metrics, this);
+            Debug.Log("Triangulate");
+            _mesh.Triangulate(_metrics);
         }
 
         public void Select()

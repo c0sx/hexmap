@@ -33,13 +33,13 @@ namespace Grid.Cell
             _triangles = new List<int>();
         }
 
-        public void Triangulate(Metrics metrics, GridCell cell)
+        public void Triangulate(Metrics metrics)
         {
             _mesh.Clear();
             _vertices.Clear();
             _triangles.Clear();
 
-            TriangulateCell(metrics, cell);
+            TriangulateCell(metrics);
 
             _mesh.vertices = _vertices.ToArray();
             _mesh.triangles = _triangles.ToArray();
@@ -53,7 +53,7 @@ namespace Grid.Cell
             _renderer.material.color = color;
         }
 
-        private void TriangulateCell(Metrics metrics, GridCell cell)
+        private void TriangulateCell(Metrics metrics)
         {
             var center = Vector3.zero;
             var corners = metrics.Corners;

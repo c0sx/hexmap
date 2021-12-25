@@ -9,39 +9,42 @@ using Unit;
 
 namespace Grid 
 {
-    [RequireComponent(typeof(HexCellSelector), typeof(Turn))]
+    [RequireComponent(typeof(HexCellSelector), typeof(Turn), typeof(Options))]
     public class HexGrid: MonoBehaviour
     {
-        [SerializeField] private float _outerRadius = 10f;
-        [SerializeField] private int _width = 10;
-        [SerializeField] private int _height = 10;
-        [SerializeField] private float _border = 0.5f;
         [SerializeField] private GridCell _cellPrefab;
         [SerializeField] private Spawner _top;
         [SerializeField] private Spawner _bottom;
         [SerializeField] private Area _area;
-        
+
+        private Options _options;
+        private Metrics _metrics;
+
         private Turn _turn;
         private HexCellSelector _selector;
-        private Metrics _metrics;
         private List<GridCell> _cells;
         private List<Pawn> _pawns;
 
         public List<GridCell> Cells => _cells;
-        public int Width => _width;
-        public int Height => _height;
+
+        public int Width => _options.Width;
+        public int Height => _options.Height;
 
 
         private void Awake()
         {
+            _options = GetComponent<Options>();
+            _metrics = new Metrics(_options);
+
+
             _turn = GetComponent<Turn>();
             _selector = GetComponent<HexCellSelector>();
-            _metrics = new Metrics(_outerRadius, _border);
-            _cells = new List<Cell.GridCell>(_height * _width);
+
+            _cells = new List<Cell.GridCell>(_options.GridSize);
             _pawns = new List<Pawn>();
 
-            for (int z = 0, i = 0; z < _height; z++, i = 0) {
-                for (int x = 0; x < _width; x++) {
+            for (int z = 0, i = 0; z < _options.Height; z++, i = 0) {
+                for (int x = 0; x < _options.Width; x++) {
                     var cell = CreateCell(i, x, z);
                     _cells.Add(cell);
                     i++;
