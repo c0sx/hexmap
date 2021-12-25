@@ -2,11 +2,15 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Grid.Selector
+using Map.Grid;
+using Map.Selection;
+using Map.Cell;
+
+namespace Map.Selector
 {
     public class HexCellSelector : MonoBehaviour
     {
-        public Selection.Group Select(Turn turn, HexGrid grid, Cell.GridCell cell)
+        public Group Select(Turn turn, HexGrid grid, GridCell cell)
         {
             if (turn.Tag == "Bottom Player") {
                return MoveToTop(grid, cell);
@@ -18,7 +22,7 @@ namespace Grid.Selector
             throw new System.Exception("Player Tag not found");
         }
 
-        private Selection.Group MoveToTop(HexGrid grid, Cell.GridCell cell)
+        private Group MoveToTop(HexGrid grid, GridCell cell)
         {
             var index = grid.Cells.FindIndex(one => one == cell);
             var width = grid.Width;
@@ -38,14 +42,14 @@ namespace Grid.Selector
             var borders = new Borders(grid.Width, grid.Height);
             var indexes = borders.IncludesIndexes(topRowIndex, new List<int> { topLeft, topRight });
             var otherCells = indexes
-                .ConvertAll<Cell.GridCell>(index => grid.Cells[index])
+                .ConvertAll<GridCell>(index => grid.Cells[index])
                 .FindAll(cell => !cell.Occupied);
 
             otherCells.Add(cell);
-            return new Selection.Group(cell, otherCells);
+            return new Group(cell, otherCells);
         }
 
-        private Selection.Group MoveToBottom(HexGrid grid, Cell.GridCell cell)
+        private Group MoveToBottom(HexGrid grid, GridCell cell)
         {
             var index = grid.Cells.FindIndex(one => one == cell);
             var width = grid.Width;
@@ -63,11 +67,11 @@ namespace Grid.Selector
             var borders = new Borders(grid.Width, grid.Height);
             var indexes = borders.IncludesIndexes(bottomRowIndex, new List<int> { bottomLeft, bottomRight });
             var otherCells = indexes
-                .ConvertAll<Cell.GridCell>(index => grid.Cells[index])
+                .ConvertAll<GridCell>(index => grid.Cells[index])
                 .FindAll(cell => !cell.Occupied);
 
             otherCells.Add(cell);
-            return new Selection.Group(cell, otherCells);
+            return new Group(cell, otherCells);
         }
     }
 

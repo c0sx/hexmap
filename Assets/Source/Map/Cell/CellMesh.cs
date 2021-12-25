@@ -2,7 +2,9 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Grid.Cell
+using Map.Grid;
+
+namespace Map.Cell
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
     public class CellMesh : MonoBehaviour

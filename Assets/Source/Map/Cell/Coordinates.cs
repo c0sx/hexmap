@@ -2,7 +2,9 @@ using System;
 
 using UnityEngine;
 
-namespace Grid.Cell
+using Map.Grid;
+
+namespace Map.Cell
 {
     [Serializable]
     public class Coordinates

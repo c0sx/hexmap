@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Grid.Selector
+namespace Map.Selector
 {
     public class Borders
     {

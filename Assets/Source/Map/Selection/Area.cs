@@ -2,9 +2,9 @@ using System;
 
 using UnityEngine;
 
-using Grid.Cell;
+using Map.Cell;
 
-namespace Grid.Selection
+namespace Map.Selection
 {
     public class Area : MonoBehaviour
     {

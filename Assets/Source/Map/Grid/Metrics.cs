@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Grid
+namespace Map.Grid
 {
     public class Metrics
     {

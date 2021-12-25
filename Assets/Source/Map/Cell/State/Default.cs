@@ -1,22 +1,22 @@
 using UnityEngine;
 
-namespace Grid.Cell.State
+namespace Map.Cell.State
 {
-    public class Selected: IState
+    public class Default: IState
     {
         private Material _material;
 
         public Material Material() => _material;
 
-        public Selected(Material material, Renderer renderer) 
+        public Default(Material material, Renderer renderer)
         {
             _material = material;
-            renderer.material = _material;
+            renderer.material = material;
         }
 
         public bool IsClickable(GridCell cell) 
         {
-            return true;
+            return cell.Occupied;
         }
     }
 }

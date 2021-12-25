@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-using Grid.Cell;
+using Map.Cell;
 
-namespace Grid.Selection
+namespace Map.Selection
 {
     public class Group
     {

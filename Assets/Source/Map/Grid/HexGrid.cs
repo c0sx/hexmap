@@ -2,12 +2,12 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using Grid.Selection;
-using Grid.Cell;
-using Grid.Selector;
+using Map.Selection;
+using Map.Cell;
+using Map.Selector;
 using Unit;
 
-namespace Grid 
+namespace Map.Grid 
 {
     [RequireComponent(typeof(HexCellSelector), typeof(Turn), typeof(Options))]
     public class HexGrid: MonoBehaviour

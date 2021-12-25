@@ -2,9 +2,10 @@ using System;
 
 using UnityEngine;
 
+using Map.Grid;
 using Unit;
 
-namespace Grid.Cell
+namespace Map.Cell
 {
     [RequireComponent(typeof(CellMesh), typeof(State.SelectionState))]
     public class GridCell : MonoBehaviour

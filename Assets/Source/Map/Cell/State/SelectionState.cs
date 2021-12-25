@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Grid.Cell.State
+namespace Map.Cell.State
 {
     public class SelectionState: MonoBehaviour
     {
