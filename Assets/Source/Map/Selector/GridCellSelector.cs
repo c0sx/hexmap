@@ -5,10 +5,11 @@ using UnityEngine;
 using Map.Grid;
 using Map.Selection;
 using Map.Cell;
+using Rules;
 
 namespace Map.Selector
 {
-    public class HexCellSelector : MonoBehaviour
+    public class GridCellSelector : MonoBehaviour
     {
         public Group Select(Turn turn, HexGrid grid, GridCell cell)
         {
@@ -19,7 +20,7 @@ namespace Map.Selector
 
             var current = cell.Coordinates;
             var vector = current.ToVector2Int();
-            var cells = new List<GridCell>();
+            var cells = new List<SelectedContainer>();
 
             foreach (var axis in axises) {
                 var next = vector + axis;
@@ -31,14 +32,14 @@ namespace Map.Selector
             return new Group(cell, otherCells);
         }
 
-        private List<GridCell> Expand(HexGrid grid, GridCell cell, Vector2Int point, Vector2Int axis)
+        private List<SelectedContainer> Expand(HexGrid grid, GridCell cell, Vector2Int point, Vector2Int axis)
         {
             var target = Coordinates.FromVector2(point);
-            var targetCell = grid.Cells.FindByCoordinates(target);
+            var targetCell = grid.FindByCoordinates(target);
 
-            var list = new List<GridCell>();
+            var list = new List<SelectedContainer>();
             if (!targetCell.Occupied) {
-                list.Add(targetCell);
+                list.Add(new SelectedContainer(targetCell, axis));
                 
                 return list;
             }
@@ -54,10 +55,10 @@ namespace Map.Selector
             if (cell.Pawn.IsEnemy(pawn)) {
                 var next = point + axis;
                 var target2 = Coordinates.FromVector2(next);
-                var targetCell2 = grid.Cells.FindByCoordinates(target2);
+                var targetCell2 = grid.FindByCoordinates(target2);
 
                 if (!targetCell2.Occupied) {
-                    list.Add(targetCell2);
+                    list.Add(new SelectedContainer(targetCell2, axis));
                 }
             }
 

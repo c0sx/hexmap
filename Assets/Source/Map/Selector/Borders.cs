@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 
 using Map.Grid;
-using Map.Cell;
 
 namespace Map.Selector
 {
@@ -15,18 +14,18 @@ namespace Map.Selector
             _grid = grid;
         }
 
-        public List<GridCell> Includes(List<GridCell> cells) 
+        public List<SelectedContainer> Includes(List<SelectedContainer> cells) 
         {
             return cells.FindAll(cell => IncludesOne(cell));
         }
 
-        private bool IncludesOne(GridCell cell)
+        private bool IncludesOne(SelectedContainer cell)
         {
-            var coordinate = cell.Coordinates;
-            var maxX = _grid.Cells.GetMaxX();
-            var minX = _grid.Cells.GetMinX();
-            var maxZ = _grid.Cells.GetMaxZ();
-            var minZ = _grid.Cells.GetMinZ();
+            var coordinate = cell.Cell.Coordinates;
+            var maxX = _grid.GetMaxX();
+            var minX = _grid.GetMinX();
+            var maxZ = _grid.GetMaxZ();
+            var minZ = _grid.GetMinZ();
 
             return coordinate.X >= minX && coordinate.X <= maxX && coordinate.Z >= minZ && coordinate.Z <= maxZ;
         }

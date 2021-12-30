@@ -30,6 +30,17 @@ namespace Unit
             _mesh.material.color = _selected;
         }
 
+        public void Move(GridCell to)
+        {
+            _cell.MovePawn(to);
+        }
+
+        public void Die()
+        {
+            _cell.RemovePawn();
+            Destroy(this);
+        }
+
         public void Deselect()
         {
             _mesh.material.color = _notSelected;
@@ -40,11 +51,13 @@ namespace Unit
             return tag != other.tag;
         }
 
-        public void AssignTeam(Team team)
+        public void AssignPlayer(Player player)
         {
-            _notSelected = team.Primary;
-            _selected = team.Selected;
-            _direction = team.Direction;
+            _notSelected = player.Primary;
+            _selected = player.Selected;
+            _direction = player.Direction;
+
+            gameObject.tag = player.tag;
 
             _mesh = GetComponent<MeshRenderer>();
             _mesh.material.color = _notSelected;

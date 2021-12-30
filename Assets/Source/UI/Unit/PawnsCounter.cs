@@ -1,30 +1,28 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-using Unit;
-
 namespace UI.Unit
 {
-    public class TeamScore : MonoBehaviour
+    public class PawnsCounter : MonoBehaviour
     {
-        [SerializeField] private Team _team;
+        [SerializeField] private Player _player;
         [SerializeField] private Text _counter;
         [SerializeField] private Image _color;
 
         private void Start()
         {
-            _team.PawnAdded += ChangeTeamCounter;
-            ChangeTeamColor(_team.Primary);
+            _player.PawnAdded += ChangeTeamCounter;
+            ChangeTeamColor(_player.Primary);
         }
 
         private void Destroy()
         {
-            _team.PawnAdded -= ChangeTeamCounter;
+            _player.PawnAdded -= ChangeTeamCounter;
         }
 
         public void ChangeTeamCounter()
         {
-            var value = _team.Count;
+            var value = _player.Count;
             _counter.text = value.ToString();
         }
 

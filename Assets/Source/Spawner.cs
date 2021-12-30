@@ -3,19 +3,16 @@ using UnityEngine;
 using Map.Cell;
 using Unit;
 
-[RequireComponent(typeof(Player))]
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private int _size = 2;
     [SerializeField] private Pawn _pawnPrefab;
-
-    private Player _player;
+    [SerializeField] private Player _player;
 
     public int Size => _size;
 
     private void Start()
     {
-        _player = GetComponent<Player>();
         _player.tag = gameObject.tag;
     }
 
@@ -27,7 +24,6 @@ public class Spawner : MonoBehaviour
     public Pawn Spawn()
     {
         var pawn = Instantiate<Pawn>(_pawnPrefab);
-        pawn.tag = gameObject.tag;
         _player.Add(pawn);
 
         return pawn;

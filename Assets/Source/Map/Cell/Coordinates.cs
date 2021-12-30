@@ -61,7 +61,13 @@ namespace Map.Cell
 
         public Vector2Int AxisWith(Coordinates target)
         {
-            return new Vector2Int(X, Z) - new Vector2Int(target.X, target.Z);
+            var t = new Vector2(X, Z) - new Vector2(target.X, target.Z);
+            var distance = new Vector2Int(X, Z) - new Vector2Int(target.X, target.Z);
+            Debug.Log("distance " + distance);
+            var normalized = Normalize(distance);
+            Debug.Log("normalized " + normalized + " " + normalized.normalized + " " + t.normalized);
+
+            return distance;
         }
 
         public Vector2Int ToVector2Int()
@@ -77,6 +83,19 @@ namespace Map.Cell
         public override string ToString()
         {
             return "(" + this.X + ";" + this.Y + ";" + this.Z + ")";
+        }
+
+        private Vector2 Normalize(Vector2Int v)
+        {
+            var length = (float)Math.Sqrt((v.x * v.x) + (v.y * v.y));
+	        var factor = (1 / length);
+	        var x = v.x * factor;
+            var y = v.y * factor;
+            
+            return new Vector2(
+                (int) x,
+                (int) y
+            );
         }
     }
 }

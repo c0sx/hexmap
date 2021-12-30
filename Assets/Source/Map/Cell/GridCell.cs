@@ -92,6 +92,11 @@ namespace Map.Cell
             return HasPawn() && _pawn == pawn;
         }
 
+        public void RemovePawn()
+        {
+            _pawn = null;
+        }
+
         public Vector2Int AxisWith(GridCell to)
         {
             return _coordinates.AxisWith(to.Coordinates);

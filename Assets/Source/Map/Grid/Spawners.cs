@@ -25,8 +25,8 @@ namespace Map.Grid
 
         public void Create(HexGrid grid)
         {
-            var first = grid.Cells.First();
-            var last = grid.Cells.Last();
+            var first = grid.FirstCell();
+            var last = grid.LastCell();
 
             _bottom.Place(first);
             _top.Place(last);
@@ -35,12 +35,12 @@ namespace Map.Grid
         public void Spawn(HexGrid grid)
         {
             var width = grid.Width;
-            var bottomSlice = grid.Cells.GetNFirst(_bottom.Size * width);
+            var bottomSlice = grid.GetNFirst(_bottom.Size * width);
             foreach (var cell in bottomSlice) {
                 SpawnPawn(cell, _bottom);
             }
 
-            var topSlice = grid.Cells.GetNLast(_top.Size * width);
+            var topSlice = grid.GetNLast(_top.Size * width);
             foreach (var cell in topSlice) {
                 SpawnPawn(cell, _top);
             }
