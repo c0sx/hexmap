@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using Map.Grid;
+using Map.Cell;
 
 namespace Map.Movement.Selector
 {
@@ -14,14 +15,15 @@ namespace Map.Movement.Selector
             _grid = grid;
         }
 
-        public List<SelectedContainer> Includes(List<SelectedContainer> cells) 
+        public List<GridCellSelection> Includes(List<GridCellSelection> selection) 
         {
-            return cells.FindAll(cell => IncludesOne(cell));
+            return selection.FindAll(selection => IncludesOne(selection));
         }
 
-        private bool IncludesOne(SelectedContainer cell)
+        private bool IncludesOne(GridCellSelection selection)
         {
-            var coordinate = cell.Cell.Coordinates;
+            var last = selection.Vector[selection.Vector.Count - 1];
+            var coordinate = last.Coordinates;
             var maxX = _grid.GetMaxX();
             var minX = _grid.GetMinX();
             var maxZ = _grid.GetMaxZ();

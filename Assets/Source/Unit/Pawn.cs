@@ -10,20 +10,24 @@ namespace Unit
     [RequireComponent(typeof(MeshRenderer))]
     public class Pawn : MonoBehaviour
     {
+        public event Action<Pawn> Selected;
+        public event Action<Pawn, GridCell, GridCellSelection> Moved;
+        public event Action<Pawn> Died;
+        public event Action<Pawn> Eats;
+
         private MeshRenderer _mesh;
         private Color _notSelected;
         private Color _selected;
         private GridCell _cell;
         private int _direction;
-
-        public Action<Pawn> Clicked;
-        public Action<Pawn> Died;
+        private int _distance = 1;
 
         public GridCell Cell => _cell;
+        public int Distance => _distance;
 
         private void OnMouseDown()
         {
-            Clicked?.Invoke(this);
+            Selected?.Invoke(this);
         }
 
         public void Select()
@@ -31,9 +35,10 @@ namespace Unit
             _mesh.material.color = _selected;
         }
 
-        public void Place(GridCell cell)
+        public void PlaceTo(GridCell cell)
         {
             _cell = cell;
+            cell.LinkPawn(this);
 
             transform.SetParent(cell.transform);
             transform.position = new Vector3(
@@ -43,16 +48,27 @@ namespace Unit
             );
         }
 
-        public void Move(GridCell to)
+        public void Move(GridCellSelection to)
         {
-            _cell.RemovePawn();
-            to.PlacePawn(this);
+            var from = _cell;
+            _cell.UnlinkPawn();
+ 
+            PlaceTo(to.Cell);
+
+            Moved?.Invoke(this, from, to);
+        }
+
+        public void Eat(Pawn pawn)
+        {
+            pawn.Die();
+            Eats?.Invoke(this);
         }
 
         public void Die()
         {
-            _cell.RemovePawn();
+            _cell.UnlinkPawn();
             Died?.Invoke(this);
+
             Destroy(gameObject);
         }
 
@@ -78,11 +94,15 @@ namespace Unit
             _mesh.material.color = _notSelected;
         }
 
-        public List<Vector2Int> GetAxises() {
-            var left = new Vector2Int(1, -1) * _direction;
-            var right = new Vector2Int(0, -1) * _direction;
+        public List<Vector2Int> GetAroundAxises()
+        {
+            var direction = new Direction(_direction);
+            return direction.Around();
+        }
 
-            return new List<Vector2Int>() { left, right };
+        public List<Vector2Int> GetForwardAxises() {
+            var direction = new Direction(_direction);
+            return direction.Forward();
         }
     }
 }

@@ -29,13 +29,13 @@ public class Game : MonoBehaviour
     private void SubscribeGrid()
     {
         _grid.Started += OnGridStarted;
-        _grid.PawnMoved += OnPawnMoved;
+        _grid.PawnMoveEnds += OnPawnMoved;
     }
 
     private void UnsubscribeGrid()
     {
         _grid.Started -= OnGridStarted;
-        _grid.PawnMoved -= OnPawnMoved;
+        _grid.PawnMoveEnds -= OnPawnMoved;
     }
 
     private void OnPawnMoved(Pawn pawn)
@@ -46,8 +46,6 @@ public class Game : MonoBehaviour
 
     private void OnGridStarted()
     {
-        Debug.Log("Grid Started");
-        
         var turn = _turns.First();
         _grid.SetTurn(turn);
     }

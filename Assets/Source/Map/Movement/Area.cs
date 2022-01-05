@@ -13,10 +13,9 @@ namespace Map.Movement
     [RequireComponent(typeof(GridCellSelector))]
     public class Area : MonoBehaviour
     {
-        private Group _current;
+        private List<GridCellSelection> _vectors;
 
-        public Action<Pawn> PawnMoved;
-        public Action<Pawn> PawnEaten;
+        public event Action<GridCellSelection> MovingTargetSelected;
 
         [SerializeField] private HexGrid _grid;
 
@@ -25,96 +24,72 @@ namespace Map.Movement
         private void Awake()
         {
             _selector = GetComponent<GridCellSelector>();
+            _vectors = new List<GridCellSelection>();
         }
 
-        public void Select(Pawn pawn)
+        public void GenerateSelection(Pawn pawn)
         {
-            // deselect previous cells
             ClearSelection();
 
-            // calculate selection zone
-            _current = _selector.Select(_grid, pawn.Cell);
-            
-            // select cells from group
-            _current.Cells.ForEach(selection => selection.Cell.Select());
+            _vectors = _selector.SelectAvailableVectors(_grid, pawn);
+            foreach (var vector in _vectors) {
+                foreach (var node in vector.Vector) {
+                    if (node.Occupied) {
+                        continue;
+                    }
 
-            // turn cell state to highlighted instead of this subscription
-            Subscribe(_current);
-        }
+                    node.Select();
+                }
 
-        private void ClearSelection()
-        {
-            if (_current == null) {
-                return;
-            }
-
-            Unsubscribe(_current);
-            foreach (var cell in _current.Cells) {
-                cell.Cell.Deselect();
+                Subscribe(vector);
             }
         }
 
-        private void Subscribe(Group group)
+        public bool HasEatingVectors(HexGrid grid, Pawn pawn)
         {
-            var center = group.Center;
-            var other = group.Cells.FindAll(cell => cell.Cell != center);
-
-            foreach (var cell in other) {
-                cell.Clicked += MovePawn;
-            }
+            var vectors = _selector.GetEatingVectors(grid, pawn);
+            return vectors.Count > 0;
         }
 
-        private void Unsubscribe(Group group)
+        public List<Vector2Int> GetEatingVectors(HexGrid grid, Pawn pawn)
         {
-            var center = group.Center;
-            var other = group.Cells.FindAll(cell => cell.Cell != center);
-
-            foreach (var cell in other) {
-                cell.Clicked -= MovePawn;
-            }
+            return _selector.GetEatingVectors(grid, pawn);
         }
 
-        private void MovePawn(GridCell to, Vector2Int axis)
+        public void ClearSelection()
         {
-            var pawn = _current.Center.Pawn;
-            pawn.Move(to);
-            pawn.Deselect();
-            PawnMoved?.Invoke(pawn);
+            foreach (var vector in _vectors) {
+                Unsubscribe(vector);
 
-            var end = _current.Center.Coordinates;
-            var start = to.Coordinates;
-
-            Debug.Log("start " + start.ToVector2Int() + " axis " + axis + " end " + end.ToVector2Int());
-
-            if (Eat(start, end, axis)) {
-                // PawnEaten?.Invoke(_current.Center.Pawn);
-            }
-
-            ClearSelection();
-        }
-
-        private bool Eat(Coordinates start, Coordinates end, Vector2Int axis)
-        {
-            var enemies = new List<GridCell>();
-            var from = start.ToVector2Int();
-            var to = end.ToVector2Int();
-
-            while (from != to) {
-                from -= axis;
-                Debug.Log("from " + from);
-                var cell = _grid.FindByCoordinates(Coordinates.FromVector2(from));
-                if (cell.Occupied) {
-                    enemies.Add(cell);
+                foreach (var cell in vector.Vector) {
+                    cell.Deselect();
                 }
             }
+        }
 
-            foreach (var cell in enemies) {
-                Debug.Log("DIE");
-                cell.Pawn.Die();
+        private void Subscribe(GridCellSelection selection)
+        {
+            foreach (var cell in selection.Vector) {
+                cell.Clicked += OnTargetCellClicked;
+            }
+        }
+
+        private void Unsubscribe(GridCellSelection selection) 
+        {
+            foreach (var cell in selection.Vector) {
+                cell.Clicked -= OnTargetCellClicked;
+            }
+        }
+
+        private void OnTargetCellClicked(GridCell target)
+        {
+            var vector = _vectors.Find(vector => vector.Contains(target));
+            if (vector == null) {
+                throw new Exception("Target cell for movement not found");
             }
 
-            return enemies.Count > 0;
+            vector.Select(target);
+            MovingTargetSelected?.Invoke(vector);
         }
     }
-
 }

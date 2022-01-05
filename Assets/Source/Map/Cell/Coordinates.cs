@@ -63,9 +63,7 @@ namespace Map.Cell
         {
             var t = new Vector2(X, Z) - new Vector2(target.X, target.Z);
             var distance = new Vector2Int(X, Z) - new Vector2Int(target.X, target.Z);
-            Debug.Log("distance " + distance);
             var normalized = Normalize(distance);
-            Debug.Log("normalized " + normalized + " " + normalized.normalized + " " + t.normalized);
 
             return distance;
         }
