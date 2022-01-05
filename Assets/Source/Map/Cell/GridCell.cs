@@ -62,13 +62,12 @@ namespace Map.Cell
             _state.Deselect();
         }
 
-        public void PlacePawn(Pawn pawn)
+        public void LinkPawn(Pawn pawn)
         {
             _pawn = pawn;
-            _pawn.Place(this);
         }
         
-        public void RemovePawn()
+        public void UnlinkPawn()
         {
             _pawn = null;
         }

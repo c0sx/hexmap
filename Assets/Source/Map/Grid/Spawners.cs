@@ -43,7 +43,7 @@ namespace Map.Grid
             var pawns = new List<Pawn>();
             foreach (var cell in cells) {
                 var pawn = spawner.Spawn();
-                cell.PlacePawn(pawn);
+                pawn.PlaceTo(cell);
                 pawns.Add(pawn);
             }
 

@@ -30,25 +30,15 @@ public class Player : MonoBehaviour
         pawn.AssignPlayer(this);
         _pawns.Add(pawn);
 
+        pawn.Died += OnPawnDied;
+
         PawnAdded?.Invoke();
-    }
-
-    public void Subscribe()
-    {
-        foreach (var pawn in _pawns) {
-            pawn.Died += OnPawnDied;
-        }
-    }
-
-    public void Unsubscribe()
-    {
-        foreach (var pawn in _pawns) {
-            pawn.Died -= OnPawnDied;
-        }
     }
 
     private void OnPawnDied(Pawn pawn)
     {
+        pawn.Died -= OnPawnDied;
+
         _pawns.Remove(pawn);
         PawnRemoved?.Invoke();
     }
