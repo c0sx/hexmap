@@ -18,31 +18,37 @@ public class Game : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Game is started");
-
-        Subscribe();
-
-        var turn = _turns.First();
-        _grid.SetTurn(turn);
+        SubscribeGrid();
     }
 
     private void Destroy()
     {
-        Unsubscribe();
+        UnsubscribeGrid();
     }
 
-    private void Subscribe()
+    private void SubscribeGrid()
     {
+        _grid.Started += OnGridStarted;
         _grid.PawnMoved += OnPawnMoved;
     }
 
-    private void Unsubscribe()
+    private void UnsubscribeGrid()
     {
+        _grid.Started -= OnGridStarted;
         _grid.PawnMoved -= OnPawnMoved;
     }
 
     private void OnPawnMoved(Pawn pawn)
     {
-        Debug.Log("OnPawnMoved");
+        var turn = _turns.Next();
+        _grid.SetTurn(turn);
+    }
+
+    private void OnGridStarted()
+    {
+        Debug.Log("Grid Started");
+        
+        var turn = _turns.First();
+        _grid.SetTurn(turn);
     }
 }

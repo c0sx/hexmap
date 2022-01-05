@@ -12,12 +12,15 @@ namespace UI.Unit
         private void Start()
         {
             _player.PawnAdded += ChangeTeamCounter;
+            _player.PawnRemoved += ChangeTeamCounter;
+
             ChangeTeamColor(_player.Primary);
         }
 
         private void Destroy()
         {
             _player.PawnAdded -= ChangeTeamCounter;
+            _player.PawnRemoved -= ChangeTeamCounter;
         }
 
         public void ChangeTeamCounter()

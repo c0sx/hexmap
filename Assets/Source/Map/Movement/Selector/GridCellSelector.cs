@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Map.Grid;
-using Map.Selection;
 using Map.Cell;
-using Rules;
 
-namespace Map.Selector
+namespace Map.Movement.Selector
 {
     public class GridCellSelector : MonoBehaviour
     {
-        public Group Select(Turn turn, HexGrid grid, GridCell cell)
+        public Group Select(HexGrid grid, GridCell cell)
         {
             var axises = cell.Pawn.GetAxises();
             var borders = new Borders(grid);
@@ -23,8 +21,8 @@ namespace Map.Selector
             var cells = new List<SelectedContainer>();
 
             foreach (var axis in axises) {
-                var next = vector + axis;
-                var list = Expand(grid, cell, next, axis);
+                var point = vector + axis;
+                var list = Expand(grid, cell, point, axis);
                 cells.AddRange(list);
             }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Map.Cell;
-using Unit;
 
 namespace Map.Grid
 {
@@ -54,11 +53,6 @@ namespace Map.Grid
         {
             var offset = _cells.Count - size;
             return _cells.GetRange(offset, size);
-        }
-
-        public GridCell FindWithPawn(Pawn pawn)
-        {
-            return _cells.Find(one => one.WithPawn(pawn));
         }
 
         public GridCell FindByCoordinates(Coordinates coordinates)

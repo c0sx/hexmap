@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 
 using Map.Cell;
-using Map.Selector;
+using Map.Movement.Selector;
 
-namespace Map.Selection
+namespace Map.Movement
 {
     public class Group
     {

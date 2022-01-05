@@ -57,41 +57,17 @@ namespace Map.Cell
             _state.Select();
         }
 
-        public void SelectPawn()
-        {
-            _pawn?.Select();
-        }
-
         public void Deselect()
         {
             _state.Deselect();
-            _pawn?.Deselect();
         }
 
         public void PlacePawn(Pawn pawn)
         {
             _pawn = pawn;
-
-            _pawn.transform.SetParent(transform);
-            _pawn.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+            _pawn.Place(this);
         }
         
-        public void MovePawn(GridCell to)
-        {
-            to.PlacePawn(_pawn);
-            _pawn = null;
-        }
-
-        public bool HasPawn()
-        {
-            return _pawn != null;
-        }
-
-        public bool WithPawn(Pawn pawn)
-        {
-            return HasPawn() && _pawn == pawn;
-        }
-
         public void RemovePawn()
         {
             _pawn = null;

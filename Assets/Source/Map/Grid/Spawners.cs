@@ -14,15 +14,6 @@ namespace Map.Grid
         [SerializeField] private Spawner _top;
         [SerializeField] private Spawner _bottom;
 
-        private List<Pawn> _pawns;
-
-        private List<Pawn> Pawns => _pawns;
-
-        private void Awake()
-        {
-            _pawns = new List<Pawn>();
-        }
-
         public void Create(HexGrid grid)
         {
             var first = grid.FirstCell();
@@ -32,45 +23,31 @@ namespace Map.Grid
             _top.Place(last);
         }
 
-        public void Spawn(HexGrid grid)
+        public List<Pawn> Spawn(HexGrid grid)
         {
+            var pawns = new List<Pawn>();
             var width = grid.Width;
             var bottomSlice = grid.GetNFirst(_bottom.Size * width);
-            foreach (var cell in bottomSlice) {
-                SpawnPawn(cell, _bottom);
-            }
+            var bottom = FromSpawner(bottomSlice, _bottom);
+            pawns.AddRange(bottom);
 
             var topSlice = grid.GetNLast(_top.Size * width);
-            foreach (var cell in topSlice) {
-                SpawnPawn(cell, _top);
+            var top = FromSpawner(topSlice, _top);
+            pawns.AddRange(top);
+
+            return pawns;
+        }
+
+        private List<Pawn> FromSpawner(List<GridCell> cells, Spawner spawner) 
+        {
+            var pawns = new List<Pawn>();
+            foreach (var cell in cells) {
+                var pawn = spawner.Spawn();
+                cell.PlacePawn(pawn);
+                pawns.Add(pawn);
             }
-        }
 
-        public void Subscribe()
-        {
-            foreach (var pawn in _pawns) {
-                pawn.Clicked += OnClicked;
-            }
-        }
-
-        public void Unsubscribe()
-        {
-            foreach (var pawn in _pawns) {
-                pawn.Clicked -= OnClicked;
-            }
-        }
-
-        private void SpawnPawn(GridCell cell, Spawner spawner)
-        {
-            var pawn = spawner.Spawn();
-            _pawns.Add(pawn);
-
-            cell.PlacePawn(pawn);
-        }
-
-        private void OnClicked(Pawn pawn)
-        {
-            Clicked?.Invoke(pawn);
+            return pawns;
         }
     }
 }

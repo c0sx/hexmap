@@ -17,6 +17,7 @@ namespace Unit
         private int _direction;
 
         public Action<Pawn> Clicked;
+        public Action<Pawn> Died;
 
         public GridCell Cell => _cell;
 
@@ -30,15 +31,29 @@ namespace Unit
             _mesh.material.color = _selected;
         }
 
+        public void Place(GridCell cell)
+        {
+            _cell = cell;
+
+            transform.SetParent(cell.transform);
+            transform.position = new Vector3(
+                cell.transform.position.x, 
+                1, 
+                cell.transform.position.z
+            );
+        }
+
         public void Move(GridCell to)
         {
-            _cell.MovePawn(to);
+            _cell.RemovePawn();
+            to.PlacePawn(this);
         }
 
         public void Die()
         {
             _cell.RemovePawn();
-            Destroy(this);
+            Died?.Invoke(this);
+            Destroy(gameObject);
         }
 
         public void Deselect()

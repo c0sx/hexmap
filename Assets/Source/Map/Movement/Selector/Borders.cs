@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 using Map.Grid;
 
-namespace Map.Selector
+namespace Map.Movement.Selector
 {
     public class Borders
     {

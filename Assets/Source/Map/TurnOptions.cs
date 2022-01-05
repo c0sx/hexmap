@@ -7,6 +7,7 @@ namespace Map
 
         public int TurnNumber => _turnNumber;
         public string PlayerTag => _player.tag;
+        public Player Player => _player;
 
         public TurnOptions(int turnNumber, Player player)
         {

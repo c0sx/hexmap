@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Map.Cell;
 
-namespace Map.Selector
+namespace Map.Movement.Selector
 {
     public class SelectedContainer
     {

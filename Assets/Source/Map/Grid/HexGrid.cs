@@ -3,30 +3,30 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using Map.Selection;
+using Map.Movement;
 using Map.Cell;
-using Map.Selector;
 
 using Unit;
 
 namespace Map.Grid 
 {
-    [RequireComponent(typeof(GridCellSelector), typeof(Turn), typeof(Options))]
+    [RequireComponent(typeof(Turn), typeof(Options))]
     [RequireComponent(typeof(Cells), typeof(Spawners))]
+    [RequireComponent(typeof(Area))]
     public class HexGrid: MonoBehaviour
     {
+        public Action Started;
         public Action<Pawn> PawnMoved;
         public Action<Pawn> PawnEaten;
 
         [SerializeField] private Spawner _top;
         [SerializeField] private Spawner _bottom;
-        [SerializeField] private Area _area;
 
         private Options _options;
         private Cells _cells;
         private Spawners _spawners;
         private Turn _turn;
-        private GridCellSelector _selector;
+        private Area _area;
         private List<Pawn> _pawns;
 
         public int Width => _options.Width;
@@ -38,9 +38,9 @@ namespace Map.Grid
             _options = GetComponent<Options>();
             _cells = GetComponent<Cells>();
             _spawners = GetComponent<Spawners>();
+            _area = GetComponent<Area>();
 
             _turn = GetComponent<Turn>();
-            _selector = GetComponent<GridCellSelector>();
 
             _pawns = new List<Pawn>();
         }
@@ -51,14 +51,18 @@ namespace Map.Grid
             _cells.Create(metrics);
 
             _spawners.Create(this);
-            _spawners.Spawn(this);
+            _pawns = _spawners.Spawn(this);
 
-            Subscribe();
+            SubscribePawns();
+            SubscribeArea();
+
+            Started?.Invoke();
         }
 
         private void Destroy()
         {
-            Unsubscribe();
+            UnsubscribePawns();
+            UnsubscribeArea();
         }
 
         public void SetTurn(TurnOptions turn)
@@ -84,36 +88,66 @@ namespace Map.Grid
 
         public GridCell FindByCoordinates(Coordinates coordinate) => _cells.FindByCoordinates(coordinate);
 
-        private void Subscribe()
+        private void SubscribePawns()
         {
-            _spawners.Subscribe();
-            _spawners.Clicked += SelectPawn;
-
-            // _area.PawnMoved += _turn.Next;
-        }
-
-        private void Unsubscribe()
-        {
-            _spawners.Unsubscribe();
-            _spawners.Clicked -= SelectPawn;
-
-            // _area.PawnMoved -= _turn.Next;
-        }
-
-        private void SelectPawn(Pawn pawn)
-        {
-            if (_turn.IsActivePlayer(pawn)) {
-                var cell = _cells.FindWithPawn(pawn);
-                if (cell != null) {
-                    SelectCell(cell);
-                }
+            foreach (var pawn in _pawns) {
+                pawn.Clicked += OnSelectPawn;
+                pawn.Died += OnPawnDied;
             }
         }
 
-        private void SelectCell(GridCell cell) 
+        private void UnsubscribePawns()
         {
-            var selected = _selector.Select(_turn, this, cell);
-            _area.Select(selected);
+            foreach (var pawn in _pawns) {
+                pawn.Clicked -= OnSelectPawn;
+                pawn.Died -= OnPawnDied;
+            }
+        }
+
+        private void SubscribeArea()
+        {
+            _area.PawnMoved += OnPawnMoved;
+            _area.PawnEaten += OnPawnEaten;
+        }
+
+        private void UnsubscribeArea()
+        {
+            _area.PawnMoved -= OnPawnMoved;
+            _area.PawnEaten -= OnPawnEaten;
+        }
+
+        private void OnSelectPawn(Pawn pawn)
+        {
+            if (!_turn.IsActivePlayer(pawn)) {
+                return;
+            }
+
+
+            // deselect other pawns
+            foreach (var other in _pawns) {
+                other.Deselect();
+            }
+
+            // select this pawn
+            pawn.Select();
+
+            // create moving area
+            _area.Select(pawn);
+        }
+
+        private void OnPawnDied(Pawn pawn)
+        {
+            _pawns.Remove(pawn);
+        }
+
+        private void OnPawnMoved(Pawn pawn)
+        {
+            PawnMoved?.Invoke(pawn);
+        }
+
+        private void OnPawnEaten(Pawn pawn)
+        {
+            PawnEaten?.Invoke(pawn);
         }
     }
 }
