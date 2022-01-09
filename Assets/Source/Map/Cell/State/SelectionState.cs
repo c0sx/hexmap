@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Map.Cell.State
+namespace Hexmap.Map.Cell.State
 {
     public class SelectionState: MonoBehaviour
     {

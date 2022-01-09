@@ -3,9 +3,10 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using Map.Cell;
+using Hexmap.Map.Cell;
+using Hexmap.Map.Movement.Selector;
 
-namespace Unit
+namespace Hexmap.Unit
 {
     [RequireComponent(typeof(MeshRenderer))]
     public class Pawn : MonoBehaviour

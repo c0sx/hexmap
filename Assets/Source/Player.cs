@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using Unit;
+using Hexmap.Unit;
 
 public class Player : MonoBehaviour
 {

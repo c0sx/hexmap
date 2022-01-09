@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using Map.Grid;
-using Map.Cell;
-using Unit;
+using Hexmap.Map.Grid;
+using Hexmap.Map.Cell;
+using Hexmap.Unit;
 
-namespace Map.Movement.Selector
+namespace Hexmap.Map.Movement.Selector
 {
     public class GridCellSelector : MonoBehaviour
     {

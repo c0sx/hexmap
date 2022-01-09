@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using Map;
+using Hexmap.Map;
 
-namespace Rules
+namespace Hexmap.Rules
 {
     public class Turns : MonoBehaviour
     {

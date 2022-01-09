@@ -1,7 +1,7 @@
 using UnityEngine;
 
-using Map.Cell;
-using Unit;
+using Hexmap.Map.Cell;
+using Hexmap.Unit;
 
 public class Spawner : MonoBehaviour
 {
@@ -29,5 +29,3 @@ public class Spawner : MonoBehaviour
         return pawn;
     }
 }
-
-

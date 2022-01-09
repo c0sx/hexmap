@@ -2,10 +2,10 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using Map.Cell;
-using Unit;
+using Hexmap.Map.Cell;
+using Hexmap.Unit;
 
-namespace Map.Grid
+namespace Hexmap.Map.Grid
 {
     public class Cells : MonoBehaviour
     {
