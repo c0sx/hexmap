@@ -1,8 +1,8 @@
 using UnityEngine;
 
-using Hexmap.Map.Grid;
-using Hexmap.Rules;
-using Hexmap.Unit;
+using Map.Grid;
+using Rules;
+using Unit;
 
 [RequireComponent(typeof(Turns))]
 public class Game : MonoBehaviour

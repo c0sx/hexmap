@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using Hexmap.Map.Cell;
-using Hexmap.Map.Grid;
-using Hexmap.Map.Movement.Selector;
-using Hexmap.Unit;
+using Map.Cell;
+using Map.Grid;
+using Map.Movement.Selector;
+using Unit;
 
-namespace Hexmap.Map.Movement
+namespace Map.Movement
 {
     [RequireComponent(typeof(GridCellSelector))]
     public class Area : MonoBehaviour

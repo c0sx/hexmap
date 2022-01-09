@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Hexmap.Unit
+namespace Unit
 {
     public class Direction
     {

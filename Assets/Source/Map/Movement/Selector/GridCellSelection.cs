@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using Hexmap.Map.Cell;
+using Map.Cell;
 
-namespace Hexmap.Map.Movement.Selector
+namespace Map.Movement.Selector
 {
     public class GridCellSelection
     {

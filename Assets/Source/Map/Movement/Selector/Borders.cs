@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 
-using Hexmap.Map.Grid;
-using Hexmap.Map.Cell;
+using Map.Grid;
+using Map.Cell;
 
-namespace Hexmap.Map.Movement.Selector
+namespace Map.Movement.Selector
 {
     public class Borders
     {

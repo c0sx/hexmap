@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using Hexmap.Map.Cell;
-using Hexmap.Unit;
+using Map.Cell;
+using Unit;
 
-namespace Hexmap.Map.Grid
+namespace Map.Grid
 {
     public class Spawners : MonoBehaviour
     {

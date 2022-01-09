@@ -1,8 +1,8 @@
 using UnityEngine;
 
-using Hexmap.Unit;
+using Unit;
 
-namespace Hexmap.Map
+namespace Map
 {
     public class Turn : MonoBehaviour
     {

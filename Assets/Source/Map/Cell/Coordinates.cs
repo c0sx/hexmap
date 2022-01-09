@@ -2,9 +2,9 @@ using System;
 
 using UnityEngine;
 
-using Hexmap.Map.Grid;
+using Map.Grid;
 
-namespace Hexmap.Map.Cell
+namespace Map.Cell
 {
     [Serializable]
     public class Coordinates

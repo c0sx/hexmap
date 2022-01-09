@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Hexmap.UI.Unit
+namespace UI.Unit
 {
     public class PawnsCounter : MonoBehaviour
     {

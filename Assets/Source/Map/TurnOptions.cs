@@ -1,4 +1,4 @@
-namespace Hexmap.Map
+namespace Map
 {
     public class TurnOptions
     {

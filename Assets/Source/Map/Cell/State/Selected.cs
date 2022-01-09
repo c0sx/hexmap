@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Hexmap.Map.Cell.State
+namespace Map.Cell.State
 {
     public class Selected: IState
     {

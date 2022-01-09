@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using Hexmap.Map.Cell;
-using Hexmap.Map.Movement;
-using Hexmap.Map.Movement.Selector;
-using Hexmap.Unit;
+using Map.Cell;
+using Map.Movement;
+using Map.Movement.Selector;
+using Unit;
 
-namespace Hexmap.Map.Grid 
+namespace Map.Grid 
 {
     [RequireComponent(typeof(Turn), typeof(Options))]
     [RequireComponent(typeof(Cells), typeof(Spawners))]

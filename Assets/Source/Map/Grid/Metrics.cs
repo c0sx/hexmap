@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Hexmap.Map.Grid
+namespace Map.Grid
 {
     public class Metrics
     {

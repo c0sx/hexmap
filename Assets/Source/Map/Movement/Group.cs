@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 
-using Hexmap.Map.Cell;
-using Hexmap.Map.Movement.Selector;
+using Map.Cell;
+using Map.Movement.Selector;
 
-namespace Hexmap.Map.Movement
+namespace Map.Movement
 {
     public class Group
     {

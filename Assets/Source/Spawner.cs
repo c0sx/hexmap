@@ -1,7 +1,7 @@
 using UnityEngine;
 
-using Hexmap.Map.Cell;
-using Hexmap.Unit;
+using Map.Cell;
+using Unit;
 
 public class Spawner : MonoBehaviour
 {

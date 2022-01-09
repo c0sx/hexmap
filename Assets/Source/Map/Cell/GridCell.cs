@@ -2,10 +2,10 @@ using System;
 
 using UnityEngine;
 
-using Hexmap.Map.Grid;
-using Hexmap.Unit;
+using Map.Grid;
+using Unit;
 
-namespace Hexmap.Map.Cell
+namespace Map.Cell
 {
     [RequireComponent(typeof(CellMesh), typeof(State.SelectionState))]
     public class GridCell : MonoBehaviour
