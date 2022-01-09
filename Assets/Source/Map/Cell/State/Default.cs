@@ -11,7 +11,7 @@ namespace Map.Cell.State
 
         public bool IsClickable(GridCell cell) 
         {
-            return cell.Occupied;
+            return !cell.Occupied;
         }
     }
 }
