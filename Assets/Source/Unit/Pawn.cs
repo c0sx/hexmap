@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 using Map.Cell;
@@ -15,6 +14,9 @@ namespace Unit
         public event Action<Pawn, GridCell, GridCellSelection> Moved;
         public event Action<Pawn> Died;
         public event Action<Pawn> Eats;
+        
+        public GridCell Cell => _cell;
+        public int Distance => _distance;
 
         private MeshRenderer _mesh;
         private Color _notSelected;
@@ -23,9 +25,6 @@ namespace Unit
         private int _direction;
         private int _distance;
 
-        public GridCell Cell => _cell;
-        public int Distance => _distance;
-
         private void Awake()
         {
             _distance = 1;
@@ -33,7 +32,6 @@ namespace Unit
 
         private void OnMouseDown()
         {
-            Debug.Log("Selected");
             Selected?.Invoke(this);
         }
 
@@ -102,7 +100,7 @@ namespace Unit
             return direction.Forward();
         }
         
-        public void Die()
+        private void Die()
         {
             _cell.UnlinkPawn();
             Died?.Invoke(this);

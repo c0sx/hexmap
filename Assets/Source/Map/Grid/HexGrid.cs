@@ -76,20 +76,31 @@ namespace Map.Grid
         {
             var pawns = _spawners.GetPawns();
             foreach (var pawn in pawns) {
-                pawn.Selected += OnPawnSelected;
-                pawn.Moved += OnPawnMoved;
-                pawn.Eats += OnPawnEats;
+                SubscribePawn(pawn);
             }
+        }
+
+        private void SubscribePawn(Pawn pawn)
+        {
+            pawn.Selected += OnPawnSelected;
+            pawn.Moved += OnPawnMoved;
+            pawn.Eats += OnPawnEats;
         }
 
         private void UnsubscribePawns()
         {
             var pawns = _spawners.GetPawns();
-            foreach (var pawn in pawns) {
-                pawn.Selected -= OnPawnSelected;
-                pawn.Moved -= OnPawnMoved;
-                pawn.Eats -= OnPawnEats;
+            foreach (var pawn in pawns)
+            {
+                UnsubscribePawn(pawn);
             }
+        }
+
+        private void UnsubscribePawn(Pawn pawn)
+        {
+            pawn.Selected -= OnPawnSelected;
+            pawn.Moved -= OnPawnMoved;
+            pawn.Eats -= OnPawnEats;
         }
 
         private void SubscribeArea()
@@ -111,6 +122,7 @@ namespace Map.Grid
             }
 
             var pawns = _spawners.GetPawns();
+            Debug.Log("1");
             foreach (var other in pawns) {
                 other.Deselect();
             }
@@ -158,6 +170,9 @@ namespace Map.Grid
 
         private void OnQueenReached(GridCell cell)
         {
+            var queen = _spawners.SpawnQueen(cell.Pawn);
+            SubscribePawn(queen);
+            
             Debug.Log("Queen Reached");
         }
     }

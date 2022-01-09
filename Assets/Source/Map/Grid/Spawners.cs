@@ -31,31 +31,34 @@ namespace Map.Grid
             _top.Place(last);
         }
 
-        public List<Pawn> Spawn(HexGrid grid)
+        public void Spawn(HexGrid grid)
         {
-            var pawns = new List<Pawn>();
             var width = grid.Width;
             var bottomSlice = grid.GetNFirst(_bottom.Size * width);
-            var bottom = FromSpawner(bottomSlice, _bottom);
-            pawns.AddRange(bottom);
+            FromSpawner(bottomSlice, _bottom);
 
             var topSlice = grid.GetNLast(_top.Size * width);
-            var top = FromSpawner(topSlice, _top);
-            pawns.AddRange(top);
-
-            return pawns;
+            FromSpawner(topSlice, _top);
         }
 
-        private List<Pawn> FromSpawner(List<GridCell> cells, Spawner spawner) 
+        public Pawn SpawnQueen(Pawn pawn)
         {
-            var pawns = new List<Pawn>();
+            var list = new List<Spawner> {_top, _bottom};
+            var spawner = list.Find(spawner => spawner.Contains(pawn));
+
+            var queen = spawner.SpawnQueen(pawn);
+            queen.Init(pawn.Cell);
+            
+            Destroy(pawn.gameObject);
+            return queen;
+        }
+
+        private void FromSpawner(List<GridCell> cells, Spawner spawner) 
+        {
             foreach (var cell in cells) {
                 var pawn = spawner.SpawnPawn();
                 pawn.Init(cell);
-                pawns.Add(pawn);
             }
-
-            return pawns;
         }
     }
 }
