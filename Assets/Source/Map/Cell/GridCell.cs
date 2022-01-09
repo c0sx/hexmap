@@ -7,55 +7,61 @@ using Unit;
 
 namespace Map.Cell
 {
-    [RequireComponent(typeof(CellMesh), typeof(State.SelectionState))]
+    [RequireComponent(typeof(GridCellMesh), typeof(Selection))]
     public class GridCell : MonoBehaviour
     {
-        public Action<GridCell> Clicked;
+        public event Action<GridCell> Clicked;
+        public event Action<GridCell> QueenReached;
+        
 
-        [SerializeField] private State.SelectionState _state;
+        private Selection _selection;
         private Coordinates _coordinates;
-        private CellMesh _mesh;
+        private GridCellMesh _mesh;
         private Metrics _metrics;
+        private bool _isQueen;
         private Pawn _pawn;
 
-        public MeshRenderer MeshRenderer => _mesh.MeshRenderer;
         public Coordinates Coordinates => _coordinates;
         public Pawn Pawn => _pawn;
         public bool Occupied => _pawn != null;
 
         private void Awake()
         {
-            _mesh = GetComponent<CellMesh>();
-            _state = GetComponent<State.SelectionState>();
+            _mesh = GetComponent<GridCellMesh>();
+            _selection = GetComponent<Selection>();
         }
 
         private void Start()
         {
+            _selection.Deselect(_isQueen);
             _mesh.Triangulate(_metrics);
         }
         
         private void OnMouseDown()
         {
-            if (_state.IsClickable(this)) {
+            if (IsClickable()) {
                 Clicked?.Invoke(this);
             }
         }
 
-        public void Init(Coordinates coordinates, Metrics metrics)
+        public void Init(Metrics metrics, int x, int z)
         {
-            _coordinates = coordinates;
             _metrics = metrics;
-            _state.Init(this);
+            
+            transform.localPosition = metrics.GetPositionFor(x, z);
+
+            _coordinates = Coordinates.FromOffsetCoordinates(x, z);
+            _isQueen = z == 0 || z == metrics.Height - 1;
         }
 
         public void Select()
         {
-            _state.Select();
+            _selection.Select();
         }
 
         public void Deselect()
         {
-            _state.Deselect();
+            _selection.Deselect(_isQueen);
         }
 
         public void LinkPawn(Pawn pawn)
@@ -68,9 +74,24 @@ namespace Map.Cell
             _pawn = null;
         }
 
-        public override string ToString()
+        public void PlacePawn(Pawn pawn)
         {
-            return _coordinates.ToString();
+            LinkPawn(pawn);
+            
+            if (_isQueen)
+            {
+                QueenReached?.Invoke(this);
+            }
+        }
+
+        private bool IsClickable()
+        {
+            if (!_selection.IsSelected())
+            {
+                return !Occupied;
+            }
+
+            return true;
         }
     }
 }

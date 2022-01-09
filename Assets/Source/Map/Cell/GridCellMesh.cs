@@ -7,16 +7,13 @@ using Map.Grid;
 namespace Map.Cell
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
-    public class CellMesh : MonoBehaviour
+    public class GridCellMesh : MonoBehaviour
     {
         private Mesh _mesh;
         private List<Vector3> _vertices;
         private List<int> _triangles;
         private MeshFilter _meshFilter;
         private MeshCollider _collider;
-        private MeshRenderer _renderer;
-
-        public MeshRenderer MeshRenderer => _renderer;
 
         private void Awake()
         {
@@ -27,7 +24,6 @@ namespace Map.Cell
             _meshFilter.mesh = _mesh;
 
             _collider = GetComponent<MeshCollider>();
-            _renderer = GetComponent<MeshRenderer>();
 
             _vertices = new List<Vector3>();
             _triangles = new List<int>();

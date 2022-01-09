@@ -11,42 +11,40 @@ using Unit;
 namespace Map.Grid 
 {
     [RequireComponent(typeof(Turn), typeof(Options))]
-    [RequireComponent(typeof(Cells), typeof(Spawners))]
-    [RequireComponent(typeof(Area))]
+    [RequireComponent(typeof(Spawners))]
+    [RequireComponent(typeof(Area), typeof(Rows))]
     public class HexGrid: MonoBehaviour
     {
-        public Action Started;
-        public Action<Pawn> PawnMoveEnds;
+        public event Action Started;
+        public event Action<Pawn> PawnMoveEnds;
+        
+        public int Width => _options.Width;
 
         [SerializeField] private Pawn _selectedPawn;
 
         private Options _options;
-        private Cells _cells;
+        private Rows _rows;
         private Spawners _spawners;
         private Turn _turn;
         private Area _area;
-        private List<Pawn> _pawns;
-
-        public int Width => _options.Width;
+        private Cells _cells;
 
         private void Awake()
         {
             _options = GetComponent<Options>();
-            _cells = GetComponent<Cells>();
+            _rows = GetComponent<Rows>();
             _spawners = GetComponent<Spawners>();
             _area = GetComponent<Area>();
             _turn = GetComponent<Turn>();
-
-            _pawns = new List<Pawn>();
         }
 
         private void Start()
         {
-            var metrics = new Metrics(_options);
-            _cells.Create(metrics);
-
-            _spawners.Create(this);
-            _pawns = _spawners.Spawn(this);
+            var cells = _rows.CreateCell(_options);
+            _cells = new Cells(cells);
+            
+            _spawners.Create(_cells);
+            _spawners.Spawn(this);
 
             SubscribePawns();
             SubscribeArea();
@@ -65,22 +63,10 @@ namespace Map.Grid
             _turn.Change(turn);
         }
 
-        public GridCell FirstCell() => _cells.First();
-
         public List<GridCell> GetNFirst(int size) => _cells.GetNFirst(size);
-        
-        public GridCell LastCell() => _cells.Last();
         
         public List<GridCell> GetNLast(int size) =>  _cells.GetNLast(size);
         
-        public int GetMinX() => _cells.GetMinX();
-        
-        public int GetMaxX() => _cells.GetMaxX();
-        
-        public int GetMinZ() => _cells.GetMinZ();
-        
-        public int GetMaxZ() => _cells.GetMaxZ();
-
         public GridCell FindByVector2(Vector2Int vector) {
             var coordinates = Coordinates.FromVector2(vector);
             return _cells.FindByCoordinates(coordinates);
@@ -88,20 +74,20 @@ namespace Map.Grid
 
         private void SubscribePawns()
         {
-            foreach (var pawn in _pawns) {
+            var pawns = _spawners.GetPawns();
+            foreach (var pawn in pawns) {
                 pawn.Selected += OnPawnSelected;
                 pawn.Moved += OnPawnMoved;
-                pawn.Died += OnPawnDied;
                 pawn.Eats += OnPawnEats;
             }
         }
 
         private void UnsubscribePawns()
         {
-            foreach (var pawn in _pawns) {
+            var pawns = _spawners.GetPawns();
+            foreach (var pawn in pawns) {
                 pawn.Selected -= OnPawnSelected;
                 pawn.Moved -= OnPawnMoved;
-                pawn.Died -= OnPawnDied;
                 pawn.Eats -= OnPawnEats;
             }
         }
@@ -109,11 +95,13 @@ namespace Map.Grid
         private void SubscribeArea()
         {
             _area.MovingTargetSelected += OnMovingTargetSelected;
+            _area.QueenReached += OnQueenReached;
         }
 
         private void UnsubscribeArea()
         {
             _area.MovingTargetSelected -= OnMovingTargetSelected;
+            _area.QueenReached += OnQueenReached;
         }
 
         private void OnPawnSelected(Pawn pawn)
@@ -122,7 +110,8 @@ namespace Map.Grid
                 return;
             }
 
-            foreach (var other in _pawns) {
+            var pawns = _spawners.GetPawns();
+            foreach (var other in pawns) {
                 other.Deselect();
             }
 
@@ -130,11 +119,6 @@ namespace Map.Grid
             pawn.Select();
 
             _area.GenerateSelection(pawn);
-        }
-
-        private void OnPawnDied(Pawn pawn)
-        {
-            _pawns.Remove(pawn);
         }
 
         private void OnPawnEats(Pawn pawn)
@@ -170,6 +154,11 @@ namespace Map.Grid
             pawn.Deselect();
             _area.ClearSelection();
             PawnMoveEnds?.Invoke(pawn);
+        }
+
+        private void OnQueenReached(GridCell cell)
+        {
+            Debug.Log("Queen Reached");
         }
     }
 }

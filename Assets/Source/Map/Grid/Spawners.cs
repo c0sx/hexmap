@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -13,10 +12,20 @@ namespace Map.Grid
         [SerializeField] private Spawner _top;
         [SerializeField] private Spawner _bottom;
 
-        public void Create(HexGrid grid)
+        public List<Pawn> GetPawns()
         {
-            var first = grid.FirstCell();
-            var last = grid.LastCell();
+            var topPawns = _top.Pawns;
+            var bottomPawns = _bottom.Pawns;
+
+            var list = new List<Pawn>(topPawns);
+            list.AddRange(bottomPawns);
+            return list;
+        }
+
+        public void Create(Cells cells)
+        {
+            var first = cells.First();
+            var last = cells.Last();
 
             _bottom.Place(first);
             _top.Place(last);
@@ -41,8 +50,8 @@ namespace Map.Grid
         {
             var pawns = new List<Pawn>();
             foreach (var cell in cells) {
-                var pawn = spawner.Spawn();
-                pawn.PlaceTo(cell);
+                var pawn = spawner.SpawnPawn();
+                pawn.Init(cell);
                 pawns.Add(pawn);
             }
 

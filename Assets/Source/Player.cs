@@ -7,8 +7,8 @@ using Unit;
 
 public class Player : MonoBehaviour
 {
-    public Action PawnAdded;
-    public Action PawnRemoved;
+    public event Action PawnAdded;
+    public event Action PawnRemoved;
 
     [SerializeField] private List<Pawn> _pawns;
     [SerializeField] private Color _primary;
@@ -19,10 +19,16 @@ public class Player : MonoBehaviour
     public Color Selected => _selected;
     public int Count => _pawns.Count;
     public int Direction => _direction;
-
+    public List<Pawn> Pawns => _pawns;
+    
     private void Awake()
     {
         _pawns = new List<Pawn>();
+    }
+
+    public void Init(Spawner spawner)
+    {
+        gameObject.tag = spawner.tag;
     }
 
     public void Add(Pawn pawn)
@@ -33,6 +39,15 @@ public class Player : MonoBehaviour
         pawn.Died += OnPawnDied;
 
         PawnAdded?.Invoke();
+    }
+
+    public void ReplaceToQueen(Pawn pawn, Pawn queen)
+    {
+        pawn.Died -= OnPawnDied;
+        _pawns.Remove(pawn);
+        _pawns.Add(queen);
+
+        queen.Died += OnPawnDied;
     }
 
     private void OnPawnDied(Pawn pawn)
