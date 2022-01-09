@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using UnityEngine;
 
 using Map.Cell;
@@ -10,10 +12,11 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Player _player;
 
     public int Size => _size;
+    public List<Pawn> Pawns => _player.Pawns;
 
     private void Start()
     {
-        _player.tag = gameObject.tag;
+        _player.Init(this);
     }
 
     public void Place(GridCell cell)
@@ -21,11 +24,20 @@ public class Spawner : MonoBehaviour
         transform.position = cell.transform.position;
     }
 
-    public Pawn Spawn()
+    public Pawn SpawnPawn()
     {
-        var pawn = Instantiate<Pawn>(_pawnPrefab);
+        var pawn = Instantiate(_pawnPrefab);
         _player.Add(pawn);
 
         return pawn;
+    }
+
+    public Pawn SpawnQueen(Pawn pawn)
+    {
+        var queen = Instantiate(_pawnPrefab);
+        queen.tag = pawn.tag;
+        _player.ReplaceToQueen(pawn, queen);
+
+        return queen;
     }
 }

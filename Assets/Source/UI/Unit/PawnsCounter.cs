@@ -23,13 +23,13 @@ namespace UI.Unit
             _player.PawnRemoved -= ChangeTeamCounter;
         }
 
-        public void ChangeTeamCounter()
+        private void ChangeTeamCounter()
         {
             var value = _player.Count;
             _counter.text = value.ToString();
         }
 
-        public void ChangeTeamColor(Color color)
+        private void ChangeTeamColor(Color color)
         {
             _color.color = color;
         }

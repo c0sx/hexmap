@@ -14,6 +14,7 @@ namespace Map.Movement
     public class Area : MonoBehaviour
     {
         public event Action<GridCellSelection> MovingTargetSelected;
+        public event Action<GridCell> QueenReached;
 
         [SerializeField] private HexGrid _grid;
         
@@ -65,6 +66,7 @@ namespace Map.Movement
         {
             foreach (var cell in selection.Vector) {
                 cell.Clicked += OnTargetCellClicked;
+                cell.QueenReached += OnQueenReached;
             }
         }
 
@@ -72,6 +74,7 @@ namespace Map.Movement
         {
             foreach (var cell in selection.Vector) {
                 cell.Clicked -= OnTargetCellClicked;
+                cell.QueenReached -= OnQueenReached;
             }
         }
 
@@ -84,6 +87,11 @@ namespace Map.Movement
 
             vector.Select(target);
             MovingTargetSelected?.Invoke(vector);
+        }
+
+        private void OnQueenReached(GridCell cell)
+        {
+            QueenReached?.Invoke(cell);
         }
     }
 }

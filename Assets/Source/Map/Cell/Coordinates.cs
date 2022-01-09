@@ -65,11 +65,6 @@ namespace Map.Cell
         {
             return X == other.X && Z == other.Z && Y == other.Y;
         }
-
-        public override string ToString()
-        {
-            return "(" + X + ";" + Y + ";" + Z + ")";
-        }
     }
 }
 

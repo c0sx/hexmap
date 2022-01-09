@@ -14,7 +14,7 @@ namespace Map.Movement.Selector
         {
             // check every vector for eating available;
             var eatingAxes = GetEatingVectors(grid, pawn);
-            var axes = eatingAxes.Count > 0 ? eatingAxes : pawn.GetForwardAxises();
+            var axes = eatingAxes.Count > 0 ? eatingAxes : pawn.GetForwardAxes();
             var selections = new List<GridCellSelection>();
 
             foreach (var axis in axes) {
@@ -31,7 +31,7 @@ namespace Map.Movement.Selector
         public List<Vector2Int> GetEatingVectors(HexGrid grid, Pawn pawn)
         {
             var eatingVectors = new List<Vector2Int>();
-            var axes = pawn.GetAroundAxises();
+            var axes = pawn.GetAroundAxes();
 
             foreach (var axis in axes) {
                 var next = pawn.Cell.Coordinates.ToVector2Int() + axis;

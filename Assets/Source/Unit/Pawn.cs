@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using System.Security.Cryptography;
 using UnityEngine;
 
 using Map.Cell;
@@ -21,14 +21,28 @@ namespace Unit
         private Color _selected;
         private GridCell _cell;
         private int _direction;
-        private int _distance = 1;
+        private int _distance;
 
         public GridCell Cell => _cell;
         public int Distance => _distance;
 
+        private void Awake()
+        {
+            _distance = 1;
+        }
+
         private void OnMouseDown()
         {
+            Debug.Log("Selected");
             Selected?.Invoke(this);
+        }
+
+        public void Init(GridCell cell)
+        {
+            _cell = cell;
+            cell.LinkPawn(this);
+            
+            Translate(cell.transform);
         }
 
         public void Select()
@@ -36,25 +50,15 @@ namespace Unit
             _mesh.material.color = _selected;
         }
 
-        public void PlaceTo(GridCell cell)
-        {
-            _cell = cell;
-            cell.LinkPawn(this);
-
-            transform.SetParent(cell.transform);
-            transform.position = new Vector3(
-                cell.transform.position.x, 
-                1, 
-                cell.transform.position.z
-            );
-        }
-
         public void Move(GridCellSelection to)
         {
             var from = _cell;
             _cell.UnlinkPawn();
  
-            PlaceTo(to.Cell);
+            _cell = to.Cell;
+            to.Cell.PlacePawn(this);
+            
+            Translate(to.Cell.transform);
 
             Moved?.Invoke(this, from, to);
         }
@@ -64,15 +68,7 @@ namespace Unit
             pawn.Die();
             Eats?.Invoke(this);
         }
-
-        public void Die()
-        {
-            _cell.UnlinkPawn();
-            Died?.Invoke(this);
-
-            Destroy(gameObject);
-        }
-
+        
         public void Deselect()
         {
             _mesh.material.color = _notSelected;
@@ -95,15 +91,33 @@ namespace Unit
             _mesh.material.color = _notSelected;
         }
 
-        public List<Vector2Int> GetAroundAxises()
+        public List<Vector2Int> GetAroundAxes()
         {
             var direction = new Direction(_direction);
             return direction.Around();
         }
 
-        public List<Vector2Int> GetForwardAxises() {
+        public List<Vector2Int> GetForwardAxes() {
             var direction = new Direction(_direction);
             return direction.Forward();
+        }
+        
+        public void Die()
+        {
+            _cell.UnlinkPawn();
+            Died?.Invoke(this);
+
+            Destroy(gameObject);
+        }
+
+        private void Translate(Transform other)
+        {
+            transform.SetParent(other);
+            transform.position = new Vector3(
+                other.position.x,
+                1,
+                other.position.z
+            );
         }
     }
 }
