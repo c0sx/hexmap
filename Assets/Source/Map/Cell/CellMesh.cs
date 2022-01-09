@@ -16,8 +16,6 @@ namespace Map.Cell
         private MeshCollider _collider;
         private MeshRenderer _renderer;
 
-        public Mesh Mesh => _mesh;
-        public MeshFilter MeshFilter => _meshFilter;
         public MeshRenderer MeshRenderer => _renderer;
 
         private void Awake()
@@ -50,11 +48,6 @@ namespace Map.Cell
             _collider.sharedMesh = _mesh;
         }
 
-        public void Color(Color color)
-        {
-            _renderer.material.color = color;
-        }
-
         private void TriangulateCell(Metrics metrics)
         {
             var center = Vector3.zero;
@@ -81,6 +74,5 @@ namespace Map.Cell
             _triangles.Add(index + 2);
         }
     }
-
 }
 

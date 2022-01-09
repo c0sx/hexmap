@@ -10,7 +10,6 @@ namespace Map.Grid
 {
     public class Spawners : MonoBehaviour
     {
-        public Action<Pawn> Clicked;
         [SerializeField] private Spawner _top;
         [SerializeField] private Spawner _bottom;
 

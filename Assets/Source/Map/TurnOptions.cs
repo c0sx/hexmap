@@ -15,5 +15,4 @@ namespace Map
             _player = player;
         }
     }
-
 }

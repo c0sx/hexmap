@@ -17,7 +17,7 @@ namespace Map
 
         public bool IsActivePlayer(Pawn pawn)
         {
-            return _currentTag == pawn.tag;
+            return pawn.CompareTag(_currentTag);
         }
     }
 }

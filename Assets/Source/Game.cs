@@ -21,7 +21,7 @@ public class Game : MonoBehaviour
         SubscribeGrid();
     }
 
-    private void Destroy()
+    private void OnDestroy()
     {
         UnsubscribeGrid();
     }

@@ -21,12 +21,12 @@ namespace Map.Grid
             _corners = CalculateCorners(options.OuterRadius, _innerRadius);
         }
 
-        public Vector3 GetPositionFor(int i, int x, int z) 
+        public Vector3 GetPositionFor(int x, int z) 
         {
             var border = _options.Border;
-            float xPosition = (x + z * 0.5f - z / 2) * (_innerRadius * 2f + border);
-            float yPosition = 0f;
-            float zPosition = z * (_options.OuterRadius * 1.5f + border);
+            var xPosition = (x + z * 0.5f - z / 2) * (_innerRadius * 2f + border);
+            var yPosition = 0f;
+            var zPosition = z * (_options.OuterRadius * 1.5f + border);
 
             return new Vector3(
                 xPosition,

@@ -12,16 +12,12 @@ namespace Map.Cell
     {
         public Action<GridCell> Clicked;
 
-        [SerializeField] private Coordinates _coordinates;
-        [SerializeField] private Pawn _pawnPrefab;
         [SerializeField] private State.SelectionState _state;
-        private Color _current;
+        private Coordinates _coordinates;
         private CellMesh _mesh;
         private Metrics _metrics;
         private Pawn _pawn;
 
-        public Mesh Mesh => _mesh.Mesh;
-        public MeshFilter MeshFilter => _mesh.MeshFilter;
         public MeshRenderer MeshRenderer => _mesh.MeshRenderer;
         public Coordinates Coordinates => _coordinates;
         public Pawn Pawn => _pawn;
@@ -72,16 +68,10 @@ namespace Map.Cell
             _pawn = null;
         }
 
-        public Vector2Int AxisWith(GridCell to)
-        {
-            return _coordinates.AxisWith(to.Coordinates);
-        }
-
         public override string ToString()
         {
             return _coordinates.ToString();
         }
     }
-
 }
 

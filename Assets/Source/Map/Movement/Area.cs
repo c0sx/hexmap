@@ -13,12 +13,11 @@ namespace Map.Movement
     [RequireComponent(typeof(GridCellSelector))]
     public class Area : MonoBehaviour
     {
-        private List<GridCellSelection> _vectors;
-
         public event Action<GridCellSelection> MovingTargetSelected;
 
         [SerializeField] private HexGrid _grid;
-
+        
+        private List<GridCellSelection> _vectors;
         private GridCellSelector _selector;
 
         private void Awake()
@@ -49,11 +48,6 @@ namespace Map.Movement
         {
             var vectors = _selector.GetEatingVectors(grid, pawn);
             return vectors.Count > 0;
-        }
-
-        public List<Vector2Int> GetEatingVectors(HexGrid grid, Pawn pawn)
-        {
-            return _selector.GetEatingVectors(grid, pawn);
         }
 
         public void ClearSelection()

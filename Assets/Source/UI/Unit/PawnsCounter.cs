@@ -17,7 +17,7 @@ namespace UI.Unit
             ChangeTeamColor(_player.Primary);
         }
 
-        private void Destroy()
+        private void OnDestroy()
         {
             _player.PawnAdded -= ChangeTeamCounter;
             _player.PawnRemoved -= ChangeTeamCounter;

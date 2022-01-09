@@ -80,7 +80,7 @@ namespace Unit
 
         public bool IsEnemy(Pawn other)
         {
-            return tag != other.tag;
+            return !other.CompareTag(tag);
         }
 
         public void AssignPlayer(Player player)

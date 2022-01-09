@@ -11,7 +11,6 @@ namespace Map.Grid
 
         public int Width => _width;
         public int Height => _height;
-        public int GridSize => _width * _height;
         public float OuterRadius => _outerRadius;
         public float Border => _border;
     }

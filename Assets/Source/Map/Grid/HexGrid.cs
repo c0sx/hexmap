@@ -18,8 +18,7 @@ namespace Map.Grid
         public Action Started;
         public Action<Pawn> PawnMoveEnds;
 
-        [SerializeField] private Spawner _top;
-        [SerializeField] private Spawner _bottom;
+        [SerializeField] private Pawn _selectedPawn;
 
         private Options _options;
         private Cells _cells;
@@ -27,11 +26,8 @@ namespace Map.Grid
         private Turn _turn;
         private Area _area;
         private List<Pawn> _pawns;
-        [SerializeField] private Pawn _selectedPawn;
 
         public int Width => _options.Width;
-        public int Height => _options.Height;
-
 
         private void Awake()
         {
@@ -39,7 +35,6 @@ namespace Map.Grid
             _cells = GetComponent<Cells>();
             _spawners = GetComponent<Spawners>();
             _area = GetComponent<Area>();
-
             _turn = GetComponent<Turn>();
 
             _pawns = new List<Pawn>();
@@ -59,7 +54,7 @@ namespace Map.Grid
             Started?.Invoke();
         }
 
-        private void Destroy()
+        private void OnDestroy()
         {
             UnsubscribePawns();
             UnsubscribeArea();
@@ -86,10 +81,9 @@ namespace Map.Grid
         
         public int GetMaxZ() => _cells.GetMaxZ();
 
-        public GridCell FindByCoordinates(Coordinates coordinate) => _cells.FindByCoordinates(coordinate);
         public GridCell FindByVector2(Vector2Int vector) {
             var coordinates = Coordinates.FromVector2(vector);
-            return FindByCoordinates(coordinates);
+            return _cells.FindByCoordinates(coordinates);
         }
 
         private void SubscribePawns()

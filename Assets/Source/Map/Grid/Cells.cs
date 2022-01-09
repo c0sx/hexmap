@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Map.Cell;
-using Unit;
 
 namespace Map.Grid
 {
@@ -12,8 +11,6 @@ namespace Map.Grid
         [SerializeField] private GridCell _prefab;
         private List<GridCell> _cells;
 
-        public List<GridCell> List => _cells;
-
         private void Awake()
         {
             _cells = new List<GridCell>();
@@ -21,11 +18,10 @@ namespace Map.Grid
 
         public void Create(Metrics metrics) 
         {
-            for (int z = 0, i = 0; z < metrics.Height; z++, i = 0) {
-                for (int x = 0; x < metrics.Width; x++) {
-                    var cell = CreateCell(metrics, i, x, z);
+            for (var z = 0; z < metrics.Height; z++) {
+                for (var x = 0; x < metrics.Width; x++) {
+                    var cell = CreateCell(metrics, x, z);
                     _cells.Add(cell);
-                    i++;
                 }
             }
         }
@@ -38,11 +34,6 @@ namespace Map.Grid
         public GridCell Last()
         {
             return _cells[_cells.Count - 1];
-        }
-
-        public GridCell IndexOf(int index) 
-        {
-            return _cells[index];
         }
 
         public List<GridCell> GetNFirst(int size)
@@ -113,12 +104,11 @@ namespace Map.Grid
             return max;
         }
 
-        private GridCell CreateCell(Metrics metrics, int i, int x, int z)
+        private GridCell CreateCell(Metrics metrics, int x, int z)
         {
-            var position = metrics.GetPositionFor(i, x, z);
+            var position = metrics.GetPositionFor(x, z);
 
-            var cell = Instantiate<GridCell>(_prefab);
-            cell.transform.SetParent(transform, false);
+            var cell = Instantiate(_prefab, transform, false);
             cell.transform.localPosition = position;
 
             var coordinates = Coordinates.FromOffsetCoordinates(x, z);
