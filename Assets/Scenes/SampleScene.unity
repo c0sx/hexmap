@@ -332,6 +332,7 @@ MonoBehaviour:
   _size: 2
   _pawnPrefab: {fileID: -7475542407422028425, guid: 7b9f305e57e988948af5fb9e92379b91, type: 3}
   _queenPrefab: {fileID: 988957821683268875, guid: e06da1db44cc4b440acf899b53ab7476, type: 3}
+  _unitPrefab: {fileID: 6515194066764396302, guid: 7a3ede6e4376ac546a18d8ab93e0e46c, type: 3}
   _player: {fileID: 497725031}
 --- !u!4 &274805247
 Transform:
@@ -777,6 +778,7 @@ MonoBehaviour:
   _size: 2
   _pawnPrefab: {fileID: -7475542407422028425, guid: 7b9f305e57e988948af5fb9e92379b91, type: 3}
   _queenPrefab: {fileID: 988957821683268875, guid: e06da1db44cc4b440acf899b53ab7476, type: 3}
+  _unitPrefab: {fileID: 6515194066764396302, guid: 7a3ede6e4376ac546a18d8ab93e0e46c, type: 3}
   _player: {fileID: 1477021096}
 --- !u!4 &942714329
 Transform:

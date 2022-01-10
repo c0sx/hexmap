@@ -18,6 +18,7 @@ namespace Unit
         public GridCell Cell => _cell;
         public int Distance => _distance;
 
+        [SerializeField] private Unit _unit;
         private MeshRenderer _mesh;
         private Color _notSelected;
         private Color _selected;
@@ -31,7 +32,7 @@ namespace Unit
 
             _distance = 1;
         }
-
+        
         private void OnMouseDown()
         {
             Selected?.Invoke(this);
@@ -45,6 +46,11 @@ namespace Unit
             cell.LinkPawn(this);
             
             Translate(cell.transform);
+        }
+
+        public void InitUnit(Unit unit)
+        {
+            _unit = unit;
         }
 
         public void Select()

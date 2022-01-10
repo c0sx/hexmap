@@ -40,7 +40,7 @@ namespace Map.Grid
             var topSlice = grid.GetNLast(_top.Size * width);
             FromSpawner(topSlice, _top);
         }
-
+        
         public Pawn SpawnQueen(GridCell cell)
         {
             var pawn = cell.Pawn;
