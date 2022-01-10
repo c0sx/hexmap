@@ -122,7 +122,6 @@ namespace Map.Grid
             }
 
             var pawns = _spawners.GetPawns();
-            Debug.Log("1");
             foreach (var other in pawns) {
                 other.Deselect();
             }
@@ -170,10 +169,10 @@ namespace Map.Grid
 
         private void OnQueenReached(GridCell cell)
         {
-            var queen = _spawners.SpawnQueen(cell.Pawn);
+            var queen = _spawners.SpawnQueen(cell);
             SubscribePawn(queen);
-            
-            Debug.Log("Queen Reached");
+
+            _selectedPawn = queen;
         }
     }
 }

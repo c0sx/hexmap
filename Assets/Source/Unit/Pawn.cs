@@ -27,6 +27,8 @@ namespace Unit
 
         private void Awake()
         {
+            _mesh = GetComponent<MeshRenderer>();
+
             _distance = 1;
         }
 
@@ -35,9 +37,11 @@ namespace Unit
             Selected?.Invoke(this);
         }
 
-        public void Init(GridCell cell)
+        public void Init(GridCell cell, int direction)
         {
             _cell = cell;
+            _direction = direction;
+            
             cell.LinkPawn(this);
             
             Translate(cell.transform);
@@ -85,7 +89,6 @@ namespace Unit
 
             gameObject.tag = player.tag;
 
-            _mesh = GetComponent<MeshRenderer>();
             _mesh.material.color = _notSelected;
         }
 

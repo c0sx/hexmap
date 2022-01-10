@@ -41,13 +41,14 @@ namespace Map.Grid
             FromSpawner(topSlice, _top);
         }
 
-        public Pawn SpawnQueen(Pawn pawn)
+        public Pawn SpawnQueen(GridCell cell)
         {
+            var pawn = cell.Pawn;
             var list = new List<Spawner> {_top, _bottom};
             var spawner = list.Find(spawner => spawner.Contains(pawn));
 
             var queen = spawner.SpawnQueen(pawn);
-            queen.Init(pawn.Cell);
+            queen.Init(pawn.Cell, cell.Direction);
             
             Destroy(pawn.gameObject);
             return queen;
@@ -57,7 +58,7 @@ namespace Map.Grid
         {
             foreach (var cell in cells) {
                 var pawn = spawner.SpawnPawn();
-                pawn.Init(cell);
+                pawn.Init(cell, spawner.Player.Direction);
             }
         }
     }

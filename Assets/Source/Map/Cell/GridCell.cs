@@ -19,10 +19,12 @@ namespace Map.Cell
         private GridCellMesh _mesh;
         private Metrics _metrics;
         private bool _isQueen;
+        private int _direction;
         private Pawn _pawn;
 
         public Coordinates Coordinates => _coordinates;
         public Pawn Pawn => _pawn;
+        public int Direction => _direction;
         public bool Occupied => _pawn != null;
 
         private void Awake()
@@ -51,7 +53,8 @@ namespace Map.Cell
             transform.localPosition = metrics.GetPositionFor(x, z);
 
             _coordinates = Coordinates.FromOffsetCoordinates(x, z);
-            _isQueen = z == 0 || z == metrics.Height - 1;
+            _direction = z == 0 ? 1 : z == metrics.Height - 1 ? -1 : 0;
+            _isQueen = _direction != 0;
         }
 
         public void Select()

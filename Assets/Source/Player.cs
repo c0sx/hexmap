@@ -45,9 +45,8 @@ public class Player : MonoBehaviour
     {
         pawn.Died -= OnPawnDied;
         _pawns.Remove(pawn);
-        _pawns.Add(queen);
-
-        queen.Died += OnPawnDied;
+        
+        Add(queen);
     }
 
     private void OnPawnDied(Pawn pawn)
