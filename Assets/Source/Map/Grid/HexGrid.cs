@@ -20,6 +20,7 @@ namespace Map.Grid
         
         public int Width => _options.Width;
 
+        // remove it 
         [SerializeField] private Pawn _selectedPawn;
 
         private Options _options;
@@ -43,8 +44,7 @@ namespace Map.Grid
             var cells = _rows.CreateCell(_options);
             _cells = new Cells(cells);
             
-            _spawners.Create(_cells);
-            _spawners.Spawn(this);
+            _spawners.Init(this, _cells);
 
             SubscribePawns();
             SubscribeArea();

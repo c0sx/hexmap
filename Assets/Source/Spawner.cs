@@ -12,9 +12,9 @@ public class Spawner : MonoBehaviour
     public Player Player => _player;
     
     [SerializeField] private int _size = 2;
+    
     [SerializeField] private Pawn _pawnPrefab;
     [SerializeField] private Pawn _queenPrefab;
-    [SerializeField] private PawnUnit _unitPrefab;
     [SerializeField] private Player _player;
 
     private void Start()
@@ -22,29 +22,20 @@ public class Spawner : MonoBehaviour
         _player.Init(this);
     }
 
+    public void Init(GridCell cell)
+    {
+        transform.position = cell.transform.position;
+    }
+
     public bool Contains(Pawn pawn)
     {
         return _player.Pawns.Contains(pawn);
     }
     
-    public void Place(GridCell cell)
-    {
-        transform.position = cell.transform.position;
-    }
-
     public Pawn SpawnPawn()
     {
         var pawn = Instantiate(_pawnPrefab);
         _player.Add(pawn);
-
-        return pawn;
-    }
-
-    public Pawn SpawnPawnUnit()
-    {
-        var pawn = Instantiate(_pawnPrefab);
-        var unit = Instantiate(_unitPrefab);
-        pawn.InitUnit(unit);
 
         return pawn;
     }

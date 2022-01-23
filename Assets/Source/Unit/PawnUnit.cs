@@ -1,37 +1,57 @@
+using System;
+using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace Unit
 {
-    [RequireComponent(typeof(MeshRenderer))]
-    public class PawnUnit : MonoBehaviour, Unit
+    [RequireComponent(typeof(MeshRenderer), typeof(Unit))]
+    public class PawnUnit : MonoBehaviour
     {
+        public event Action<PawnUnit> Selected;
+        
+        private Unit _unit;
+        
         private MeshRenderer _mesh;
-        private int _distance;
-        private int _direction;
-        private Color _notSelected;
-        private Color _selected;
 
         private void Awake()
         {
             _mesh = GetComponent<MeshRenderer>();
         }
+        
+        private void OnMouseDown()
+        {
+            Selected?.Invoke(this);
+        }
 
-        public void Init(int direction, int distance, Player player)
+        public void Init(Unit unit, Transform target)
         {
-            _notSelected = player.Primary;
-            _selected = player.Selected;
-            _direction = direction;
-            _distance = distance;
+            _unit = unit;
+            
+            PlaceTo(target);
         }
-        
-        public void Select()
+
+        public List<Vector2Int> GetMovingAxes()
         {
-            _mesh.material.color = _selected;
+            return _unit.GetMovingAxes();
         }
-        
-        public void Deselect()
+
+        public List<Vector2Int> GetLookingAroundAxes()
         {
-            _mesh.material.color = _notSelected;
+            return _unit.GetLookingAroundAxes();
+        }
+
+        private void PlaceTo(Transform other)
+        {
+            var current = transform;
+            current.SetParent(other);
+            
+            var otherPosition = other.position;
+            current.position = new Vector3(
+                otherPosition.x,
+                1,
+                otherPosition.z
+            );
         }
     }
 }

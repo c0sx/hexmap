@@ -71,7 +71,7 @@ namespace Map.Cell
         {
             _pawn = pawn;
         }
-        
+
         public void UnlinkPawn()
         {
             _pawn = null;
@@ -86,7 +86,7 @@ namespace Map.Cell
                 QueenReached?.Invoke(this);
             }
         }
-
+        
         private bool IsClickable()
         {
             if (!_selection.IsSelected())

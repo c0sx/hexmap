@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 using Map.Cell;
@@ -18,7 +19,6 @@ namespace Unit
         public GridCell Cell => _cell;
         public int Distance => _distance;
 
-        [SerializeField] private Unit _unit;
         private MeshRenderer _mesh;
         private Color _notSelected;
         private Color _selected;
@@ -33,6 +33,7 @@ namespace Unit
             _distance = 1;
         }
         
+        // move to pawn unit
         private void OnMouseDown()
         {
             Selected?.Invoke(this);
@@ -48,16 +49,13 @@ namespace Unit
             Translate(cell.transform);
         }
 
-        public void InitUnit(Unit unit)
-        {
-            _unit = unit;
-        }
-
+        // move to pawn unit
         public void Select()
         {
             _mesh.material.color = _selected;
         }
 
+        // move to pawn unit
         public void Move(GridCellSelection to)
         {
             var from = _cell;
@@ -77,6 +75,7 @@ namespace Unit
             Eats?.Invoke(this);
         }
         
+        // move to pawn unit
         public void Deselect()
         {
             _mesh.material.color = _notSelected;
@@ -101,12 +100,12 @@ namespace Unit
         public List<Vector2Int> GetAroundAxes()
         {
             var direction = new Direction(_direction);
-            return direction.Around();
+            return direction.Looking();
         }
 
         public List<Vector2Int> GetForwardAxes() {
             var direction = new Direction(_direction);
-            return direction.Forward();
+            return direction.Moving();
         }
         
         private void Die()

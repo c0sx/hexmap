@@ -4,20 +4,15 @@ using UnityEngine;
 
 namespace Unit
 {
-    public class Direction
+    public class QueenDirection
     {
-        private readonly int _direction;
-
-        public Direction(int direction)
-        {
-            _direction = direction;
-        }
-
         public List<Vector2Int> Moving()
         {
             return new List<Vector2Int> {
                 ForwardLeft(),
-                ForwardRight()
+                ForwardRight(),
+                BackwardLeft(),
+                BackwardRight()
             };
         }
     
@@ -32,35 +27,37 @@ namespace Unit
                 Left()
             };
         }
-
+        
         private Vector2Int ForwardLeft()
         {
-            return new Vector2Int(-1, 1) * _direction;
+            return new Vector2Int(-1, 1);
         }
     
         private Vector2Int ForwardRight()
         {
-            return new Vector2Int(0, 1) * _direction;
+            return new Vector2Int(0, 1);
         }
     
         private Vector2Int Left()
         {
-            return new Vector2Int(-1, 0) * _direction;
+            return new Vector2Int(-1, 0);
         }
     
         private Vector2Int Right()
         {
-            return new Vector2Int(1, 0) * _direction;
+            return new Vector2Int(1, 0);
         }
     
         private Vector2Int BackwardLeft() 
         {
-            return new Vector2Int(0, -1) * _direction;
+            return new Vector2Int(0, -1);
         }
     
         private Vector2Int BackwardRight()
         {
-            return new Vector2Int(1, -1) * _direction;
+            return new Vector2Int(1, -1);
         }
     }
 }
+
+

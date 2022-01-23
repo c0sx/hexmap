@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7435392827098341545
+--- !u!1 &3242657271391092591
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5153001405357980336}
-  - component: {fileID: 7806429915364314606}
-  - component: {fileID: 829687990653282798}
-  - component: {fileID: 4167127941287054497}
-  - component: {fileID: -7475542407422028425}
-  - component: {fileID: 1914163394141717814}
-  - component: {fileID: 846164858781433506}
+  - component: {fileID: 4776891460029649374}
+  - component: {fileID: 6974140194941361524}
+  - component: {fileID: 7019729552359393403}
+  - component: {fileID: 9088220163147677418}
+  - component: {fileID: 8798587570692538007}
   m_Layer: 0
-  m_Name: Pawn
+  m_Name: SimplePawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5153001405357980336
+--- !u!4 &4776891460029649374
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7435392827098341545}
+  m_GameObject: {fileID: 3242657271391092591}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 138.56406, y: 0, z: 60}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7806429915364314606
+--- !u!33 &6974140194941361524
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7435392827098341545}
+  m_GameObject: {fileID: 3242657271391092591}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &829687990653282798
+--- !u!23 &7019729552359393403
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7435392827098341545}
+  m_GameObject: {fileID: 3242657271391092591}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -85,55 +83,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &4167127941287054497
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7435392827098341545}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-7475542407422028425
+--- !u!114 &9088220163147677418
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7435392827098341545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb1fc9a50489b2646a31020768652712, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1914163394141717814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7435392827098341545}
+  m_GameObject: {fileID: 3242657271391092591}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c70d23ad460e5c44e85ef276cb59334a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &846164858781433506
+--- !u!114 &8798587570692538007
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7435392827098341545}
+  m_GameObject: {fileID: 3242657271391092591}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8eed4233b255ca44870bf3d2c1e8f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _distance: 1
-  _direction: 0

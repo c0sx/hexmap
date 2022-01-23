@@ -12,6 +12,17 @@ namespace Map.Grid
         [SerializeField] private Spawner _top;
         [SerializeField] private Spawner _bottom;
 
+        public void Init(HexGrid grid, Cells cells)
+        {
+            var first = cells.First();
+            var last = cells.Last();
+
+            _bottom.Init(first);
+            _top.Init(last);
+            
+            Spawn(grid);
+        }
+        
         public List<Pawn> GetPawns()
         {
             var topPawns = _top.Pawns;
@@ -20,25 +31,6 @@ namespace Map.Grid
             var list = new List<Pawn>(topPawns);
             list.AddRange(bottomPawns);
             return list;
-        }
-
-        public void Create(Cells cells)
-        {
-            var first = cells.First();
-            var last = cells.Last();
-
-            _bottom.Place(first);
-            _top.Place(last);
-        }
-
-        public void Spawn(HexGrid grid)
-        {
-            var width = grid.Width;
-            var bottomSlice = grid.GetNFirst(_bottom.Size * width);
-            FromSpawner(bottomSlice, _bottom);
-
-            var topSlice = grid.GetNLast(_top.Size * width);
-            FromSpawner(topSlice, _top);
         }
         
         public Pawn SpawnQueen(GridCell cell)
@@ -53,11 +45,22 @@ namespace Map.Grid
             Destroy(pawn.gameObject);
             return queen;
         }
+        
+        private void Spawn(HexGrid grid)
+        {
+            var width = grid.Width;
+            var bottomSlice = grid.GetNFirst(_bottom.Size * width);
+            FromSpawner(bottomSlice, _bottom);
+
+            var topSlice = grid.GetNLast(_top.Size * width);
+            FromSpawner(topSlice, _top);
+        }
 
         private void FromSpawner(List<GridCell> cells, Spawner spawner) 
         {
             foreach (var cell in cells) {
                 var pawn = spawner.SpawnPawn();
+                
                 pawn.Init(cell, spawner.Player.Direction);
             }
         }
