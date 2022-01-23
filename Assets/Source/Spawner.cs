@@ -16,6 +16,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Pawn _pawnPrefab;
     [SerializeField] private Pawn _queenPrefab;
     [SerializeField] private Player _player;
+    [SerializeField] private PawnUnit _simplePawnPrefab;
 
     private void Start()
     {
@@ -47,5 +48,15 @@ public class Spawner : MonoBehaviour
         
         _player.ReplaceToQueen(pawn, queen);
         return queen;
+    }
+
+    public PawnUnit Spawn(Player player)
+    {
+        var pawn = Instantiate(_simplePawnPrefab);
+        pawn.Init(player);
+        
+        _player.Add(pawn);
+
+        return pawn;
     }
 }

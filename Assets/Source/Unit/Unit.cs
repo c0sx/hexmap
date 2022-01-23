@@ -10,6 +10,8 @@ namespace Unit
         event Action<Unit, Unit> Eats;
         event Action<Unit> Died;
         event Action<Unit> Moved;
+
+        void Init(PawnUnit unit);
         
         void Die();
         Position GetPosition();

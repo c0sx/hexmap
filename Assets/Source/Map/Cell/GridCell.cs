@@ -12,7 +12,6 @@ namespace Map.Cell
     {
         public event Action<GridCell> Clicked;
         public event Action<GridCell> QueenReached;
-        
 
         private Selection _selection;
         private Coordinates _coordinates;
@@ -21,6 +20,7 @@ namespace Map.Cell
         private bool _isQueen;
         private int _direction;
         private Pawn _pawn;
+        private PawnUnit _unit;
 
         public Coordinates Coordinates => _coordinates;
         public Pawn Pawn => _pawn;
@@ -85,6 +85,13 @@ namespace Map.Cell
             {
                 QueenReached?.Invoke(this);
             }
+        }
+
+        public void PlaceUnit(PawnUnit unit)
+        {
+            _unit = unit;
+            
+            unit.PlaceTo(transform);
         }
         
         private bool IsClickable()

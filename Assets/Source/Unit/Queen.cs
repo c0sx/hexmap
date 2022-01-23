@@ -21,9 +21,9 @@ namespace Unit
             _direction = new QueenDirection();
         }
 
-        public void Init(Position position)
+        public void Init(PawnUnit unit)
         {
-            _position = position;
+            _position = unit.GetPosition();
         }
         
         public Position GetPosition()

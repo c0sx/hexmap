@@ -12,8 +12,12 @@ namespace Map.Grid
         [SerializeField] private Spawner _top;
         [SerializeField] private Spawner _bottom;
 
+        private HexGrid _grid;
+
         public void Init(HexGrid grid, Cells cells)
         {
+            _grid = grid;
+            
             var first = cells.First();
             var last = cells.Last();
 
@@ -49,19 +53,19 @@ namespace Map.Grid
         private void Spawn(HexGrid grid)
         {
             var width = grid.Width;
+            
             var bottomSlice = grid.GetNFirst(_bottom.Size * width);
-            FromSpawner(bottomSlice, _bottom);
+            ForSpawner(bottomSlice, _bottom);
 
             var topSlice = grid.GetNLast(_top.Size * width);
-            FromSpawner(topSlice, _top);
+            ForSpawner(topSlice, _top);
         }
 
-        private void FromSpawner(List<GridCell> cells, Spawner spawner) 
+        private void ForSpawner(List<GridCell> cells, Spawner spawner) 
         {
             foreach (var cell in cells) {
-                var pawn = spawner.SpawnPawn();
-                
-                pawn.Init(cell, spawner.Player.Direction);
+                var unit = spawner.Spawn(spawner.Player);
+                cell.PlaceUnit(unit);
             }
         }
     }

@@ -16,10 +16,10 @@ namespace Unit
         private Direction _direction;
         private Position _position;
         
-        public void Init(Position position, int direction)
+        public void Init(PawnUnit unit)
         {
-            _position = position;
-            _direction = new Direction(direction);
+            _position = unit.GetPosition();
+            _direction = new Direction(unit.Direction);
         }
 
         public Position GetPosition()

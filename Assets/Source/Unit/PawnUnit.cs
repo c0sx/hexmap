@@ -9,14 +9,19 @@ namespace Unit
     public class PawnUnit : MonoBehaviour
     {
         public event Action<PawnUnit> Selected;
-        
+        public int Direction => _direction;
+
         private Unit _unit;
+        private int _direction;
         
         private MeshRenderer _mesh;
-
+        private Color _notSelected;
+        private Color _selected;
+        
         private void Awake()
         {
             _mesh = GetComponent<MeshRenderer>();
+            _unit = GetComponent<Unit>();
         }
         
         private void OnMouseDown()
@@ -24,11 +29,21 @@ namespace Unit
             Selected?.Invoke(this);
         }
 
-        public void Init(Unit unit, Transform target)
+        public void Init(Player player)
         {
-            _unit = unit;
+            _notSelected = player.Primary;
+            _selected = player.Selected;
+            _direction = player.Direction;
             
-            PlaceTo(target);
+            _unit.Init(this);
+            
+            _mesh.material.color = _notSelected;
+        }
+
+        public Position GetPosition()
+        {
+            var position = transform.position;
+            return new Position(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.z));
         }
 
         public List<Vector2Int> GetMovingAxes()
@@ -41,7 +56,7 @@ namespace Unit
             return _unit.GetLookingAroundAxes();
         }
 
-        private void PlaceTo(Transform other)
+        public void PlaceTo(Transform other)
         {
             var current = transform;
             current.SetParent(other);

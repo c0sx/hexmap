@@ -21,12 +21,12 @@ public class Player : MonoBehaviour
     public int Direction => _direction;
     public List<Pawn> Pawns => _pawns;
 
-    private List<Unit.Unit> _units;
+    private List<PawnUnit> _units;
     
     private void Awake()
     {
         _pawns = new List<Pawn>();
-        _units = new List<Unit.Unit>();
+        _units = new List<PawnUnit>();
     }
 
     public void Init(Spawner spawner)
@@ -44,17 +44,17 @@ public class Player : MonoBehaviour
         PawnAdded?.Invoke();
     }
 
+    public void Add(PawnUnit unit)
+    {
+        _units.Add(unit);
+    }
+
     public void ReplaceToQueen(Pawn pawn, Pawn queen)
     {
         pawn.Died -= OnPawnDied;
         _pawns.Remove(pawn);
         
         Add(queen);
-    }
-
-    public bool IsOwnerForUnit(Unit.Unit unit)
-    {
-        return _units.Contains(unit);
     }
 
     private void OnPawnDied(Pawn pawn)
